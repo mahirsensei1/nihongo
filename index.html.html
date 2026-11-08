@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nihongo Mahir Sensei</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; base-uri 'none'; form-action 'none'">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2316265c'/%3E%3Ctext x='32' y='45' font-size='38' text-anchor='middle' fill='%23e0b75a' font-family='serif'%3E%E6%97%A5%3C/text%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#f2f4fa; --surface:#ffffff; --surface2:#e9edf8; --ink:#14203f; --muted:#57648a; --line:#d3daec;
+  --indigo:#233a82; --indigo-deep:#14214f; --gold:#b8861a; --gold-soft:#f1dfae; --good:#1c8a5a; --good-bg:#e0f3ea; --bad:#c0392f; --bad-bg:#fbe5e2;
+  --shadow:0 1px 2px rgba(20,32,63,.06),0 10px 30px -12px rgba(20,32,63,.18);
+  --sans:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic","Noto Sans CJK JP","Noto Sans JP",Meiryo,"IPAGothic","Segoe UI",system-ui,-apple-system,sans-serif;
+  --serif:"Hiragino Mincho ProN","Yu Mincho","Noto Serif CJK JP","Noto Serif JP","IPAMincho","Iowan Old Style",Georgia,serif;
+  color-scheme:light;
+}
+:root[data-theme="dark"]{
+  --bg:#0b1230; --surface:#121b40; --surface2:#1a2656; --ink:#e9edfb; --muted:#9ba9d2; --line:#27346a;
+  --indigo:#93a9f6; --indigo-deep:#0d1740; --gold:#e3b95c; --gold-soft:#3b3317; --good:#52d49a; --good-bg:#12372b; --bad:#ff8a7e; --bad-bg:#40201f;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 14px 34px -14px rgba(0,0,0,.6);
+  color-scheme:dark;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0b1230; --surface:#121b40; --surface2:#1a2656; --ink:#e9edfb; --muted:#9ba9d2; --line:#27346a;
+    --indigo:#93a9f6; --indigo-deep:#0d1740; --gold:#e3b95c; --gold-soft:#3b3317; --good:#52d49a; --good-bg:#12372b; --bad:#ff8a7e; --bad-bg:#40201f;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 14px 34px -14px rgba(0,0,0,.6);
+    color-scheme:dark;
+  }
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:84px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5;-webkit-font-smoothing:antialiased;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:8px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+
+/* top bar */
+.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:14px;height:64px}
+.brand{display:flex;align-items:center;gap:12px;background:none;border:0;padding:0;text-align:left}
+.seal{width:40px;height:40px;border-radius:10px;background:var(--indigo-deep);color:#e3b95c;display:grid;place-items:center;font-family:var(--serif);font-size:24px;font-weight:700;box-shadow:inset 0 0 0 2px rgba(227,185,92,.45)}
+.brand b{display:block;font-family:var(--serif);font-size:19px;letter-spacing:.01em;line-height:1.1}
+.brand small{display:block;color:var(--muted);font-size:12px}
+.spacer{flex:1}
+.chip{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 14px;font-size:14px}
+.chip:hover{border-color:var(--indigo)}
+.icon-btn{width:40px;height:40px;border-radius:999px;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;font-size:18px}
+.icon-btn:hover{border-color:var(--indigo)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid transparent;border-radius:12px;padding:12px 20px;font-weight:600;font-size:16px;transition:transform .12s,background .12s}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--indigo-deep);color:#fff}
+:root[data-theme="dark"] .btn-primary{background:var(--gold);color:#1a1405}
+.btn-gold{background:#e3b95c;color:#1a1405}
+.btn-gold:hover{background:#edc874}
+.btn-ghost{background:var(--surface);border-color:var(--line);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--indigo)}
+.btn-danger{background:var(--bad);color:#fff}
+.btn-sm{padding:8px 14px;font-size:14px;border-radius:10px}
+
+/* hero */
+.hero{margin-top:26px;border-radius:26px;background:linear-gradient(135deg,#101b45 0%,#1f3578 62%,#2c4aa0 100%);color:#fff;position:relative;overflow:hidden;display:grid;grid-template-columns:1.25fr .75fr;gap:20px;padding:42px 44px;box-shadow:var(--shadow)}
+.hero::before{content:"日本語";position:absolute;right:-6px;top:-18px;font-family:var(--serif);font-weight:700;font-size:210px;line-height:1;writing-mode:vertical-rl;color:rgba(255,255,255,.07);pointer-events:none}
+.hero h1{font-family:var(--serif);font-size:clamp(30px,4.6vw,46px);line-height:1.15;margin:0 0 12px;font-weight:700}
+.hero p{margin:0 0 24px;color:#cdd7f6;max-width:46ch;font-size:17px}
+.hero .actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.hero .meta{color:#aebbe6;font-size:14px}
+.wod{position:relative;z-index:1;align-self:center;justify-self:end;width:100%;max-width:300px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:22px;text-align:center;backdrop-filter:blur(6px)}
+.wod .k{font-size:64px;line-height:1.15;font-family:var(--sans);font-weight:500;word-break:keep-all}
+.wod .r{min-height:26px;font-size:20px;color:#f0d68f;margin-top:4px}
+.wod .m{min-height:22px;color:#cdd7f6;font-size:15px}
+.wod button{margin-top:12px;background:transparent;border:1px solid rgba(255,255,255,.35);color:#fff;border-radius:999px;padding:6px 16px;font-size:14px}
+.wod button:hover{background:rgba(255,255,255,.12)}
+.wod small{display:block;color:#aebbe6;margin-bottom:6px;font-size:13px}
+
+/* cards & sections */
+h2{font-family:var(--serif);font-size:24px;margin:0 0 4px}
+.sub{color:var(--muted);margin:0 0 16px;font-size:15px}
+section{margin-top:36px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:20px}
+.stat{padding:18px 20px}
+.stat .n{font-family:var(--serif);font-size:34px;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums}
+.stat .l{color:var(--muted);font-size:14px;margin-top:2px}
+.sets{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.tile{position:relative;text-align:left;padding:14px 16px 16px;border-radius:16px;border:1px solid var(--line);background:var(--surface);transition:border-color .12s,transform .12s,box-shadow .12s}
+.tile:hover{border-color:var(--indigo);transform:translateY(-2px);box-shadow:var(--shadow)}
+.tile .no{font-family:var(--serif);font-size:30px;font-weight:700;line-height:1}
+.tile .st{margin-top:8px;font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+.tile .bar{margin-top:8px;height:5px;border-radius:5px;background:var(--surface2);overflow:hidden}
+.tile .bar i{display:block;height:100%;background:var(--indigo);border-radius:5px}
+.tile.gold{border-color:var(--gold)}
+.tile.gold .bar i{background:var(--gold)}
+.tile.gold .st{color:var(--gold);font-weight:600}
+.tile .done{position:absolute;right:12px;top:12px;font-size:12px;border-radius:999px;padding:2px 9px;background:var(--gold-soft);color:var(--gold);font-weight:600}
+.two{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}
+.panel{padding:22px}
+.list{list-style:none;margin:0;padding:0}
+.list li{display:flex;align-items:center;gap:14px;padding:12px 0;border-top:1px solid var(--line)}
+.list li:first-child{border-top:0}
+.list .sc{font-family:var(--serif);font-size:22px;font-weight:700;min-width:70px;font-variant-numeric:tabular-nums}
+.list .dt{color:var(--muted);font-size:13px}
+.list .open{margin-left:auto}
+.empty{color:var(--muted);padding:26px 4px;text-align:center}
+.foot{margin:48px 0 40px;color:var(--muted);font-size:14px;display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center}
+.link{background:none;border:0;color:var(--indigo);text-decoration:underline;padding:0;font-size:14px}
+
+/* dialog */
+dialog{border:0;border-radius:22px;padding:0;max-width:480px;width:calc(100% - 32px);background:var(--surface);color:var(--ink);box-shadow:0 30px 80px -20px rgba(0,0,0,.5)}
+dialog::backdrop{background:rgba(8,13,35,.6);backdrop-filter:blur(3px)}
+.dlg{padding:26px}
+.dlg h3{font-family:var(--serif);font-size:24px;margin:0 0 6px}
+.dlg p{color:var(--muted);margin:0 0 16px}
+.field{display:block;margin:12px 0}
+.field span{display:block;font-size:14px;color:var(--muted);margin-bottom:6px}
+.field input,.field select{width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--bg);font-size:17px}
+.rules{margin:14px 0 4px;padding:14px 16px;border-radius:14px;background:var(--surface2);font-size:14px;color:var(--ink)}
+.rules div+div{margin-top:4px}
+.dlg .row{display:flex;gap:10px;justify-content:flex-end;margin-top:20px;flex-wrap:wrap}
+
+/* test */
+.tbar{position:sticky;top:64px;z-index:15;background:var(--surface);border:1px solid var(--line);border-radius:16px;margin-top:16px;padding:12px 16px;display:flex;align-items:center;gap:16px;box-shadow:var(--shadow)}
+.timer{font-family:var(--serif);font-size:34px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1;min-width:110px}
+.timer.warn{color:var(--bad)}
+.timer.pulse{animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.45}}
+.prog{flex:1;min-width:90px}
+.prog .t{font-size:13px;color:var(--muted);margin-bottom:5px;font-variant-numeric:tabular-nums}
+.prog .b{height:8px;border-radius:8px;background:var(--surface2);overflow:hidden}
+.prog .b i{display:block;height:100%;width:0;background:var(--indigo);transition:width .2s}
+.tbar .setname{color:var(--muted);font-size:14px}
+.part{margin-top:30px}
+.part h2{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.part h2 small{font-family:var(--sans);font-size:14px;color:var(--muted);font-weight:400}
+.qgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
+.q{padding:16px 18px 18px;border:1px solid var(--line);background:var(--surface);border-radius:18px;transition:border-color .12s}
+.q:focus-within{border-color:var(--indigo);box-shadow:0 0 0 3px color-mix(in srgb,var(--indigo) 22%,transparent)}
+.q .qn{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.q .kanji{font-size:58px;line-height:1.2;text-align:center;margin:6px 0 10px;word-break:keep-all;font-weight:500}
+.q .kanji.long{font-size:42px}
+.q .kanji.xlong{font-size:32px}
+.q .en{font-size:24px;line-height:1.25;text-align:center;margin:12px 0 16px;min-height:60px;display:grid;place-items:center;font-weight:600}
+.q input{width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--bg);font-size:22px;text-align:center}
+.q input:focus{outline:none;border-color:var(--indigo)}
+.submit-row{display:flex;justify-content:center;margin:34px 0 10px}
+
+/* result */
+.res{margin-top:26px;display:grid;grid-template-columns:.9fr 1.1fr;gap:18px}
+.scorecard{align-self:start;position:sticky;top:84px;padding:30px;text-align:center;background:linear-gradient(150deg,#101b45,#25408f);color:#fff;border-radius:24px;box-shadow:var(--shadow)}
+.ring{position:relative;width:210px;height:210px;margin:6px auto 12px}
+.ring svg{transform:rotate(-90deg)}
+.ring .num{position:absolute;inset:0;display:grid;place-content:center;font-family:var(--serif)}
+.ring .num b{font-size:60px;line-height:1}
+.ring .num span{color:#b9c6ee;font-size:16px}
+.scorecard h2{color:#fff;margin:6px 0 2px}
+.scorecard .who{font-family:var(--serif);font-size:26px}
+.scorecard .when{color:#b9c6ee;font-size:14px}
+.verdict{font-family:var(--serif);font-size:22px;color:#f0d68f;margin:12px 0 4px}
+.parts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+.parts div{background:rgba(255,255,255,.09);border-radius:14px;padding:12px}
+.parts b{display:block;font-family:var(--serif);font-size:26px}
+.parts span{font-size:13px;color:#b9c6ee}
+.rbtns{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;justify-content:center}
+.review{padding:8px 22px 16px}
+.filters{display:flex;gap:8px;margin:16px 0 4px}
+.pill{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 14px;font-size:14px}
+.pill[aria-pressed="true"]{background:var(--indigo-deep);color:#fff;border-color:var(--indigo-deep)}
+:root[data-theme="dark"] .pill[aria-pressed="true"]{background:var(--gold);color:#1a1405;border-color:var(--gold)}
+.rrow{display:grid;grid-template-columns:36px 1fr 1fr 28px;gap:12px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
+.rrow:first-child{border-top:0}
+.rrow .n{color:var(--muted);font-size:13px}
+.rrow .p{font-size:22px}
+.rrow .p small{display:block;font-size:12px;color:var(--muted)}
+.rrow .a{font-size:15px}
+.rrow .a b{display:block;font-size:19px}
+.rrow.ok .mk{color:var(--good)} .rrow.no .mk{color:var(--bad)}
+.rrow.no .a .you{color:var(--bad);text-decoration:line-through}
+.mk{font-weight:700;font-size:20px;text-align:center}
+.tag{font-size:12px;border-radius:999px;padding:1px 8px;background:var(--surface2);color:var(--muted);margin-left:6px}
+
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--indigo-deep);color:#fff;padding:10px 18px;border-radius:999px;font-size:15px;box-shadow:var(--shadow);z-index:50}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+
+.crumbs{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:22px 0 0;font-size:14px;color:var(--muted)}
+.grid-lv{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;margin-top:18px}
+.lv{position:relative;text-align:left;padding:22px;border-radius:20px;border:1px solid var(--line);background:var(--surface);box-shadow:var(--shadow);display:flex;flex-direction:column;gap:4px;min-height:176px;transition:transform .12s,border-color .12s}
+.lv .jp{font-family:var(--serif);font-size:44px;line-height:1;color:var(--indigo)}
+.lv b{font-family:var(--serif);font-size:22px;margin-top:10px}
+.lv small{color:var(--muted);font-size:14px}
+.lv:not(.off):hover{border-color:var(--indigo);transform:translateY(-2px)}
+.lv.off{opacity:.62;cursor:not-allowed}
+.lv em{position:absolute;right:16px;top:16px;font-style:normal;font-size:12px;background:var(--surface2);border-radius:999px;padding:2px 10px;color:var(--muted)}
+
+.rule{padding:24px 26px;margin-top:16px}
+.rule .rn{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:10px;background:var(--indigo-deep);color:#e3b95c;font-family:var(--serif);font-weight:700;font-size:18px;margin-right:10px}
+:root[data-theme="dark"] .rule .rn{background:var(--gold);color:#1a1405}
+.rule h3{font-size:22px;margin:0 0 10px;display:flex;align-items:center;font-family:var(--serif)}
+.rule p{margin:0 0 14px;font-size:17px;line-height:1.75}
+.formula{display:inline-block;padding:6px 14px;border-radius:10px;background:var(--surface2);font-size:20px;margin-bottom:12px}
+.ex{border-left:4px solid var(--gold);background:var(--surface2);border-radius:0 14px 14px 0;padding:14px 18px}
+.ex .jp{font-size:30px;line-height:1.5}
+.ex .bn{color:var(--muted);font-size:17px;margin-top:2px}
+.ex .ans{margin-top:8px;font-size:20px}
+.note{margin-top:12px;color:var(--muted);font-size:15px}
+
+.kgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(86px,1fr));gap:10px;margin-top:18px}
+.kt{aspect-ratio:1;border-radius:16px;border:1px solid var(--line);background:var(--surface);font-size:42px;display:grid;place-items:center;transition:transform .12s,border-color .12s}
+.kt:hover{border-color:var(--indigo);transform:translateY(-2px)}
+.kbig{font-size:110px;line-height:1.1;text-align:center;margin:4px 0 8px}
+.kread{text-align:center;font-size:22px}
+.kmean{text-align:center;color:var(--muted);margin-bottom:14px}
+.kw{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;padding:10px 0;border-top:1px solid var(--line);align-items:baseline}
+.kw b{font-size:22px;font-weight:500}
+.kw span{color:var(--muted);font-size:14px;grid-column:2}
+.vtools{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 14px}
+.vtools input{flex:1;min-width:180px;padding:11px 14px;border-radius:12px;border:1px solid var(--line);background:var(--surface);font-size:16px}
+.vrow{display:grid;grid-template-columns:1.2fr 1fr;gap:12px;padding:14px 18px;border-top:1px solid var(--line);width:100%;text-align:left;background:none;border-left:0;border-right:0;border-bottom:0;align-items:center}
+.vrow:first-child{border-top:0}
+.vrow .j{font-size:26px;word-break:keep-all}
+.vrow .e{font-size:17px;color:var(--muted)}
+#vlist.hide .vrow:not(.shown) .e{filter:blur(8px);user-select:none}
+.spk{border:1px solid var(--line);background:var(--surface);border-radius:999px;width:34px;height:34px;font-size:15px;line-height:1;vertical-align:middle;margin-right:6px;padding:0}.spk:hover{border-color:var(--indigo)}
+.kread .spk{width:40px;height:40px}
+@media (max-width:860px){
+  .hero{grid-template-columns:1fr;padding:30px 24px}
+  .wod{justify-self:stretch;max-width:none}
+  .hero::before{font-size:150px;right:-14px}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .two,.res{grid-template-columns:1fr}
+  .scorecard{position:static}
+}
+@media (max-width:560px){
+  .brand small{display:none}
+  .chip .nm{max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .tbar{gap:10px;padding:10px 12px}
+  .timer{font-size:28px;min-width:90px}
+  .tbar .setname{display:none}
+  .rrow{grid-template-columns:28px 1fr 28px}
+  .rrow .a{grid-column:2/3}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{
+  body{background:#fff}
+  .top,.no-print,.tbar,.foot,.filters,.rbtns{display:none!important}
+  .res{grid-template-columns:1fr}
+  .scorecard{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .card{box-shadow:none}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <button class="brand" data-action="home" aria-label="Go to the dashboard">
+      <span class="seal" aria-hidden="true">日</span>
+      <span><b>Nihongo Mahir Sensei</b><small>JLPT N5 to N1 study and mock tests</small></span>
+    </button>
+    <span class="spacer"></span>
+    <button class="chip" id="nameChip" data-action="editName" aria-label="Change your name"><span aria-hidden="true">👤</span><span class="nm" id="nameLabel">Add your name</span></button>
+    <button class="icon-btn" id="themeBtn" data-action="theme" aria-label="Switch between light and dark mode">☾</button>
+  </div>
+</header>
+<main class="wrap" id="app"></main>
+
+<dialog id="dlgStart"><form method="dialog" class="dlg" id="startForm">
+  <h3>Start a test</h3>
+  <p>50 questions in 30 minutes. The timer starts as soon as you begin.</p>
+  <label class="field"><span>Your name (it appears on your score card)</span><input id="inName" type="text" maxlength="40" autocomplete="off" placeholder="Mahir"></label>
+  <label class="field"><span>Set</span><select id="inSet"></select></label>
+  <div class="rules">
+    <div>Part A: read the kanji word and type it in hiragana (25).</div>
+    <div>Part B: read the English and type the Japanese word with kanji (25).</div>
+    <div>Switch your keyboard to Japanese before you begin.</div>
+  </div>
+  <div class="row"><button type="button" class="btn btn-ghost" data-action="closeStart">Cancel</button><button type="submit" class="btn btn-primary" id="goBtn">Start test</button></div>
+</form></dialog>
+
+<dialog id="dlgName"><form method="dialog" class="dlg" id="nameForm">
+  <h3>Your name</h3>
+  <p>It is saved only in this browser and printed on your score card.</p>
+  <label class="field"><span class="sr">Name</span><input id="inName2" type="text" maxlength="40" autocomplete="off" placeholder="Mahir"></label>
+  <div class="row"><button type="button" class="btn btn-ghost" data-action="closeName">Cancel</button><button type="submit" class="btn btn-primary">Save name</button></div>
+</form></dialog>
+
+<dialog id="dlgSubmit"><div class="dlg">
+  <h3 id="subTitle">Submit your answers?</h3>
+  <p id="subText"></p>
+  <div class="row"><button class="btn btn-ghost" data-action="closeSubmit">Keep working</button><button class="btn btn-primary" data-action="confirmSubmit">Submit answers</button></div>
+</div></dialog>
+
+<dialog id="dlgKanji"><div class="dlg" id="kBody"></div></dialog>
+
+<dialog id="dlgClear"><div class="dlg">
+  <h3>Erase everything on this device?</h3>
+  <p>This removes your name, scores and history from this browser. It cannot be undone.</p>
+  <div class="row"><button class="btn btn-ghost" data-action="closeClear">Cancel</button><button class="btn btn-danger" data-action="confirmClear">Erase data</button></div>
+</div></dialog>
+
+<script>
+(() => {
+"use strict";
+const SETS = [{"a":[["高校","こうこう","high school"],["休日","きゅうじつ","day off"],["学校","がっこう","school"],["何人","なんにん","how many people"],["新聞","しんぶん","newspaper"],["六かい","ろっかい","6th floor"],["古い店","ふるいみせ","old shop"],["外","そと","outside"],["時間","じかん","hour / time"],["古い","ふるい","old"],["十四日","じゅうよっか","14th (day)"],["長い","ながい","long"],["午後","ごご","p.m."],["火よう日","かようび","Tuesday"],["今","いま","now"],["中学校","ちゅうがっこう","junior high school"],["火","ひ","fire"],["女","おんな","woman"],["二千十五年","にせんじゅうごねん","the year 2015"],["今年","ことし","this year"],["行きたい","いきたい","want to go"],["花見","はなみ","cherry blossom viewing"],["休みます","やすみます","rest"],["一番下","いちばんした","the very bottom"],["土","つち","soil"]],"b":[["八時三十分","はちじさんじゅっぷん","8:30"],["日本語","にほんご","Japanese language"],["一番","いちばん","number one / most"],["男の子","おとこのこ","boy"],["今日","きょう","today"],["十万三千","じゅうまんさんぜん","103,000"],["国","くに","country"],["天気","てんき","weather"],["校長","こうちょう","principal"],["高い","たかい","tall / expensive"],["友だち","ともだち","friend"],["生きます","いきます","live"],["五十八さい","ごじゅうはっさい","58 years old"],["二つ","ふたつ","two (things)"],["来る","くる","come (plain form)"],["木よう日","もくようび","Thursday"],["大きい白いうち","おおきいしろいうち","big white house"],["駅の前","えきのまえ","in front of the station"],["上","うえ","above / on"],["六時半","ろくじはん","6:30"],["金よう日","きんようび","Friday"],["二人","ふたり","two people"],["話す","はなす","speak"],["山","やま","mountain"],["歩きます","あるきます","walk"]]},{"a":[["白いくつ","しろいくつ","white shoes"],["名前","なまえ","name"],["五時間","ごじかん","five hours"],["毎週","まいしゅう","every week"],["毎日","まいにち","every day"],["四つ","よっつ","four (things)"],["十一","じゅういち","eleven"],["土よう日","どようび","Saturday"],["午前十時","ごぜんじゅうじ","10 a.m."],["北へ","きたへ","to the north"],["出口","でぐち","exit"],["人","ひと","person"],["魚や","さかなや","fish shop"],["来週","らいしゅう","next week"],["分かります","わかります","understand"],["今月","こんげつ","this month"],["一かい","いっかい","1st floor"],["来ない","こない","do not come"],["五つ","いつつ","five (things)"],["南","みなみ","south"],["会話","かいわ","conversation"],["お先に","おさきに","after you / ahead"],["年","とし","year / age"],["円い","まるい","round"],["間に","あいだに","between"]],"b":[["会社","かいしゃ","company"],["手がみ","てがみ","letter"],["川","かわ","river"],["六十一さい","ろくじゅういっさい","61 years old"],["女の子","おんなのこ","girl"],["六つ","むっつ","six (things)"],["電気会社","でんきがいしゃ","electric company"],["毎月","まいつき","every month"],["ふじ山","ふじさん","Mt. Fuji"],["見ます","みます","see / watch"],["さん歩","さんぽ","stroll"],["十八さい","じゅうはっさい","18 years old"],["お金","おかね","money"],["車","くるま","car"],["中国","ちゅうごく","China"],["五時","ごじ","five o'clock"],["一つ","ひとつ","one (thing)"],["行く時","いくとき","when going"],["中","なか","inside"],["三がい","さんがい","3rd floor"],["白い","しろい","white"],["高校の先生","こうこうのせんせい","high school teacher"],["休みの日","やすみのひ","holiday"],["二さつ","にさつ","two (books)"],["下","した","below / under"]]},{"a":[["左","ひだり","left"],["先週","せんしゅう","last week"],["日本語の本","にほんごのほん","Japanese book"],["西","にし","west"],["手","て","hand"],["男","おとこ","man"],["足","あし","leg / foot"],["毎年","まいとし","every year"],["八千八百九十二","はっせんはっぴゃくきゅうじゅうに","8,892"],["生かつ","せいかつ","daily life"],["電車","でんしゃ","train"],["三つ","みっつ","three (things)"],["一年","いちねん","one year"],["四千六百円","よんせんろっぴゃくえん","4,600 yen"],["社会","しゃかい","society"],["一番目","いちばんめ","first (in order)"],["天ごく","てんごく","heaven"],["先生","せんせい","teacher"],["食じ","しょくじ","meal"],["外国人","がいこくじん","foreigner"],["来年","らいねん","next year"],["立ちます","たちます","stand up"],["会います","あいます","meet"],["会ぎ","かいぎ","meeting"],["今週","こんしゅう","this week"]],"b":[["一本","いっぽん","one (long thing)"],["道","みち","road / way"],["入学","にゅうがく","entering school"],["お父さん","おとうさん","someone's father"],["少ない","すくない","few"],["魚","さかな","fish"],["耳","みみ","ear"],["六時","ろくじ","six o'clock"],["気もち","きもち","feeling"],["何日","なんにち","how many days"],["入れます","いれます","put in"],["十五日","じゅうごにち","15th (day)"],["八千","はっせん","eight thousand"],["小さい","ちいさい","small"],["後ろ","うしろ","behind"],["言います","いいます","say"],["しけん中","しけんちゅう","under examination"],["月","つき","moon"],["一人","ひとり","one person"],["午後六時","ごごろくじ","6 p.m."],["男の人","おとこのひと","male person"],["学校で","がっこうで","at school"],["後で","あとで","later"],["新しい","あたらしい","new"],["行きます","いきます","go"]]},{"a":[["木の下","きのした","under the tree"],["見学します","けんがくします","tour / visit to learn"],["九月三日","くがつみっか","September 3rd"],["北","きた","north"],["三時間後","さんじかんご","three hours later"],["水を飲みます","みずをのみます","drink water"],["友人","ゆうじん","friend (formal)"],["入口","いりぐち","entrance"],["花や","はなや","flower shop"],["入ります","はいります","enter"],["来月","らいげつ","next month"],["空きます","あきます","become empty"],["小学校","しょうがっこう","elementary school"],["三百円","さんびゃくえん","300 yen"],["社長","しゃちょう","company president"],["半分","はんぶん","half"],["中国人","ちゅうごくじん","Chinese person"],["木","き","tree"],["何よう日","なんようび","what day of the week"],["日本から","にほんから","from Japan"],["八分","はっぷん","eight minutes"],["手足","てあし","hands and feet"],["電気","でんき","electricity"],["読む前に","よむまえに","before reading"],["上下","じょうげ","up and down"]],"b":[["少し","すこし","a little"],["聞きます","ききます","hear / listen"],["子ども","こども","child"],["二時間","にじかん","two hours"],["多いです","おおいです","there are many"],["四時","よじ","four o'clock"],["空","そら","sky"],["七時間","しちじかん","seven hours"],["来ます","きます","come"],["千五百","せんごひゃく","1,500"],["食べます","たべます","eat"],["きっさ店","きっさてん","coffee shop"],["買います","かいます","buy"],["八つ","やっつ","eight (things)"],["六十さい","ろくじゅっさい","60 years old"],["東","ひがし","east"],["魚つり","さかなつり","fishing"],["八百","はっぴゃく","eight hundred"],["三千","さんぜん","three thousand"],["電話","でんわ","telephone"],["学生","がくせい","student"],["飲みます","のみます","drink"],["読みます","よみます","read"],["水よう日","すいようび","Wednesday"],["三足","さんぞく","three pairs (of shoes)"]]},{"a":[["大きいです","おおきいです","it is big"],["電話で","でんわで","by phone"],["一万","いちまん","ten thousand"],["母","はは","my mother"],["出します","だします","send / take out"],["一週間前","いっしゅうかんまえ","one week ago"],["目","め","eye"],["二十","にじゅう","twenty"],["九つ","ここのつ","nine (things)"],["百人","ひゃくにん","100 people"],["左右を見て","さゆうをみて","look left and right"],["水","みず","water"],["三か月","さんかげつ","three months"],["新しい店","あたらしいみせ","new shop"],["百万","ひゃくまん","one million"],["新年","しんねん","new year"],["午前","ごぜん","a.m."],["四月","しがつ","April"],["右","みぎ","right"],["お母さん","おかあさん","someone's mother"],["店","みせ","shop"],["四時半","よじはん","4:30"],["学びます","まなびます","study / learn"],["父","ちち","my father"],["三本","さんぼん","three (long things)"]],"b":[["三年","さんねん","three years"],["九時","くじ","nine o'clock"],["十万","じゅうまん","one hundred thousand"],["先月","せんげつ","last month"],["何年","なんねん","what year"],["七つ","ななつ","seven (things)"],["きょ年","きょねん","last year"],["安ぜん","あんぜん","safe"],["出ます","でます","leave / go out"],["何か","なにか","something"],["小さい店","ちいさいみせ","small shop"],["じてん車","じてんしゃ","bicycle"],["左右","さゆう","left and right"],["大学","だいがく","university"],["言ば","ことば","word"],["口","くち","mouth"],["白い花","しろいはな","white flower"],["大人","おとな","adult"],["日本","にほん","Japan"],["日よう日","にちようび","Sunday"],["雨の日","あめのひ","rainy day"],["ひる休み","ひるやすみ","lunch break"],["道ろ","どうろ","highway"],["書きます","かきます","write"],["百一","ひゃくいち","101"]]},{"a":[["火よう日","かようび","Tuesday"],["六時半","ろくじはん","6:30"],["何人","なんにん","how many people"],["外国","がいこく","foreign country"],["来る","くる","come (plain form)"],["花見","はなみ","cherry blossom viewing"],["生きます","いきます","live"],["今","いま","now"],["五十八さい","ごじゅうはっさい","58 years old"],["十","じゅう","ten"],["女","おんな","woman"],["何ですか","なんですか","what is it?"],["大きい白いうち","おおきいしろいうち","big white house"],["休日","きゅうじつ","day off"],["天気","てんき","weather"],["男の子","おとこのこ","boy"],["時間","じかん","hour / time"],["外","そと","outside"],["中学校","ちゅうがっこう","junior high school"],["歩きます","あるきます","walk"],["一番","いちばん","number one / most"],["国","くに","country"],["新聞","しんぶん","newspaper"],["今年","ことし","this year"],["花びん","かびん","flower vase"]],"b":[["八時三十分","はちじさんじゅっぷん","8:30"],["行きたい","いきたい","want to go"],["友だち","ともだち","friend"],["木よう日","もくようび","Thursday"],["安い","やすい","cheap"],["火","ひ","fire"],["校長","こうちょう","principal"],["三百","さんびゃく","three hundred"],["二人","ふたり","two people"],["休みます","やすみます","rest"],["午後","ごご","p.m."],["金よう日","きんようび","Friday"],["長い","ながい","long"],["今日","きょう","today"],["一番下","いちばんした","the very bottom"],["十四日","じゅうよっか","14th (day)"],["十万三千","じゅうまんさんぜん","103,000"],["駅の前","えきのまえ","in front of the station"],["話す","はなす","speak"],["六かい","ろっかい","6th floor"],["学校","がっこう","school"],["駅","えき","station"],["古い店","ふるいみせ","old shop"],["日本語","にほんご","Japanese language"],["二千十五年","にせんじゅうごねん","the year 2015"]]},{"a":[["南","みなみ","south"],["川","かわ","river"],["分かります","わかります","understand"],["ふじ山","ふじさん","Mt. Fuji"],["五つ","いつつ","five (things)"],["六つ","むっつ","six (things)"],["一つ","ひとつ","one (thing)"],["五時","ごじ","five o'clock"],["名前","なまえ","name"],["電気会社","でんきがいしゃ","electric company"],["五時間","ごじかん","five hours"],["会話","かいわ","conversation"],["毎日","まいにち","every day"],["女の子","おんなのこ","girl"],["上","うえ","above / on"],["間に","あいだに","between"],["お金","おかね","money"],["高校の先生","こうこうのせんせい","high school teacher"],["北へ","きたへ","to the north"],["魚や","さかなや","fish shop"],["一かい","いっかい","1st floor"],["下","した","below / under"],["二つ","ふたつ","two (things)"],["来週","らいしゅう","next week"],["高校","こうこう","high school"]],"b":[["毎月","まいつき","every month"],["土よう日","どようび","Saturday"],["会社","かいしゃ","company"],["今月","こんげつ","this month"],["四つ","よっつ","four (things)"],["行く時","いくとき","when going"],["高い","たかい","tall / expensive"],["十一","じゅういち","eleven"],["白い","しろい","white"],["車","くるま","car"],["六十一さい","ろくじゅういっさい","61 years old"],["十八さい","じゅうはっさい","18 years old"],["古い","ふるい","old"],["円い","まるい","round"],["中","なか","inside"],["手がみ","てがみ","letter"],["人","ひと","person"],["さん歩","さんぽ","stroll"],["二さつ","にさつ","two (books)"],["毎週","まいしゅう","every week"],["お先に","おさきに","after you / ahead"],["山","やま","mountain"],["土","つち","soil"],["白いくつ","しろいくつ","white shoes"],["午前十時","ごぜんじゅうじ","10 a.m."]]},{"a":[["後ろ","うしろ","behind"],["三つ","みっつ","three (things)"],["毎年","まいとし","every year"],["出口","でぐち","exit"],["西","にし","west"],["少ない","すくない","few"],["気もち","きもち","feeling"],["天ごく","てんごく","heaven"],["外国人","がいこくじん","foreigner"],["お父さん","おとうさん","someone's father"],["しけん中","しけんちゅう","under examination"],["中国","ちゅうごく","China"],["日本語の本","にほんごのほん","Japanese book"],["入れます","いれます","put in"],["小さい","ちいさい","small"],["八千八百九十二","はっせんはっぴゃくきゅうじゅうに","8,892"],["魚","さかな","fish"],["今週","こんしゅう","this week"],["食じ","しょくじ","meal"],["学校で","がっこうで","at school"],["先週","せんしゅう","last week"],["見ます","みます","see / watch"],["来年","らいねん","next year"],["左","ひだり","left"],["道","みち","road / way"]],"b":[["一番目","いちばんめ","first (in order)"],["休みの日","やすみのひ","holiday"],["男の人","おとこのひと","male person"],["何日","なんにち","how many days"],["耳","みみ","ear"],["一本","いっぽん","one (long thing)"],["八千","はっせん","eight thousand"],["三がい","さんがい","3rd floor"],["行きます","いきます","go"],["新しい","あたらしい","new"],["後で","あとで","later"],["入学","にゅうがく","entering school"],["一年","いちねん","one year"],["会ぎ","かいぎ","meeting"],["四千六百円","よんせんろっぴゃくえん","4,600 yen"],["立ちます","たちます","stand up"],["生かつ","せいかつ","daily life"],["月","つき","moon"],["年","とし","year / age"],["言います","いいます","say"],["十五日","じゅうごにち","15th (day)"],["社会","しゃかい","society"],["電車","でんしゃ","train"],["来ない","こない","do not come"],["先生","せんせい","teacher"]]},{"a":[["聞きます","ききます","hear / listen"],["子ども","こども","child"],["八分","はっぷん","eight minutes"],["会います","あいます","meet"],["水を飲みます","みずをのみます","drink water"],["水よう日","すいようび","Wednesday"],["何よう日","なんようび","what day of the week"],["中国人","ちゅうごくじん","Chinese person"],["日本から","にほんから","from Japan"],["飲みます","のみます","drink"],["空きます","あきます","become empty"],["手","て","hand"],["電話","でんわ","telephone"],["きっさ店","きっさてん","coffee shop"],["入口","いりぐち","entrance"],["読みます","よみます","read"],["社長","しゃちょう","company president"],["三時間後","さんじかんご","three hours later"],["木","き","tree"],["東","ひがし","east"],["友人","ゆうじん","friend (formal)"],["男","おとこ","man"],["食べます","たべます","eat"],["魚つり","さかなつり","fishing"],["四時","よじ","four o'clock"]],"b":[["足","あし","leg / foot"],["少し","すこし","a little"],["北","きた","north"],["七時間","しちじかん","seven hours"],["来ます","きます","come"],["一人","ひとり","one person"],["木の下","きのした","under the tree"],["小学校","しょうがっこう","elementary school"],["学生","がくせい","student"],["六十さい","ろくじゅっさい","60 years old"],["空","そら","sky"],["千五百","せんごひゃく","1,500"],["見学します","けんがくします","tour / visit to learn"],["入ります","はいります","enter"],["八つ","やっつ","eight (things)"],["買います","かいます","buy"],["電気","でんき","electricity"],["三百円","さんびゃくえん","300 yen"],["手足","てあし","hands and feet"],["午後六時","ごごろくじ","6 p.m."],["三千","さんぜん","three thousand"],["三足","さんぞく","three pairs (of shoes)"],["半分","はんぶん","half"],["六時","ろくじ","six o'clock"],["読む前に","よむまえに","before reading"]]},{"a":[["白い花","しろいはな","white flower"],["十万","じゅうまん","one hundred thousand"],["目","め","eye"],["百人","ひゃくにん","100 people"],["店","みせ","shop"],["電話で","でんわで","by phone"],["左右","さゆう","left and right"],["安ぜん","あんぜん","safe"],["新しい店","あたらしいみせ","new shop"],["ひる休み","ひるやすみ","lunch break"],["何年","なんねん","what year"],["上下","じょうげ","up and down"],["花や","はなや","flower shop"],["道ろ","どうろ","highway"],["大学","だいがく","university"],["新年","しんねん","new year"],["四月","しがつ","April"],["八百","はっぴゃく","eight hundred"],["右","みぎ","right"],["九つ","ここのつ","nine (things)"],["三本","さんぼん","three (long things)"],["水","みず","water"],["きょ年","きょねん","last year"],["書きます","かきます","write"],["先月","せんげつ","last month"]],"b":[["何か","なにか","something"],["日本","にほん","Japan"],["父","ちち","my father"],["大きいです","おおきいです","it is big"],["百一","ひゃくいち","101"],["九月三日","くがつみっか","September 3rd"],["学びます","まなびます","study / learn"],["雨の日","あめのひ","rainy day"],["大人","おとな","adult"],["母","はは","my mother"],["左右を見て","さゆうをみて","look left and right"],["小さい店","ちいさいみせ","small shop"],["来月","らいげつ","next month"],["一万","いちまん","ten thousand"],["口","くち","mouth"],["二時間","にじかん","two hours"],["お母さん","おかあさん","someone's mother"],["多いです","おおいです","there are many"],["出します","だします","send / take out"],["日よう日","にちようび","Sunday"],["三か月","さんかげつ","three months"],["四時半","よじはん","4:30"],["七つ","ななつ","seven (things)"],["言ば","ことば","word"],["九時","くじ","nine o'clock"]]},{"a":[["二十","にじゅう","twenty"],["何人","なんにん","how many people"],["友だち","ともだち","friend"],["六かい","ろっかい","6th floor"],["新聞","しんぶん","newspaper"],["来る","くる","come (plain form)"],["日本語","にほんご","Japanese language"],["二千十五年","にせんじゅうごねん","the year 2015"],["金よう日","きんようび","Friday"],["外国","がいこく","foreign country"],["十四日","じゅうよっか","14th (day)"],["出ます","でます","leave / go out"],["百万","ひゃくまん","one million"],["八時三十分","はちじさんじゅっぷん","8:30"],["長い","ながい","long"],["駅","えき","station"],["行きたい","いきたい","want to go"],["花びん","かびん","flower vase"],["話す","はなす","speak"],["天気","てんき","weather"],["今年","ことし","this year"],["大きい白いうち","おおきいしろいうち","big white house"],["十","じゅう","ten"],["生きます","いきます","live"],["六時半","ろくじはん","6:30"]],"b":[["一週間前","いっしゅうかんまえ","one week ago"],["二人","ふたり","two people"],["三年","さんねん","three years"],["五十八さい","ごじゅうはっさい","58 years old"],["三百","さんびゃく","three hundred"],["女","おんな","woman"],["今","いま","now"],["花見","はなみ","cherry blossom viewing"],["木よう日","もくようび","Thursday"],["休みます","やすみます","rest"],["火","ひ","fire"],["午前","ごぜん","a.m."],["古い店","ふるいみせ","old shop"],["男の子","おとこのこ","boy"],["学校","がっこう","school"],["中学校","ちゅうがっこう","junior high school"],["何ですか","なんですか","what is it?"],["休日","きゅうじつ","day off"],["今日","きょう","today"],["駅の前","えきのまえ","in front of the station"],["外","そと","outside"],["じてん車","じてんしゃ","bicycle"],["一番","いちばん","number one / most"],["安い","やすい","cheap"],["一番下","いちばんした","the very bottom"]]},{"a":[["北へ","きたへ","to the north"],["会社","かいしゃ","company"],["十万三千","じゅうまんさんぜん","103,000"],["古い","ふるい","old"],["白い","しろい","white"],["一つ","ひとつ","one (thing)"],["山","やま","mountain"],["二さつ","にさつ","two (books)"],["上","うえ","above / on"],["中","なか","inside"],["お金","おかね","money"],["川","かわ","river"],["お先に","おさきに","after you / ahead"],["時間","じかん","hour / time"],["五つ","いつつ","five (things)"],["毎日","まいにち","every day"],["校長","こうちょう","principal"],["二つ","ふたつ","two (things)"],["五時間","ごじかん","five hours"],["下","した","below / under"],["毎月","まいつき","every month"],["高い","たかい","tall / expensive"],["白いくつ","しろいくつ","white shoes"],["午前十時","ごぜんじゅうじ","10 a.m."],["十八さい","じゅうはっさい","18 years old"]],"b":[["国","くに","country"],["午後","ごご","p.m."],["分かります","わかります","understand"],["電気会社","でんきがいしゃ","electric company"],["火よう日","かようび","Tuesday"],["間に","あいだに","between"],["手がみ","てがみ","letter"],["四つ","よっつ","four (things)"],["魚や","さかなや","fish shop"],["行く時","いくとき","when going"],["人","ひと","person"],["女の子","おんなのこ","girl"],["来週","らいしゅう","next week"],["高校の先生","こうこうのせんせい","high school teacher"],["円い","まるい","round"],["南","みなみ","south"],["名前","なまえ","name"],["六つ","むっつ","six (things)"],["土","つち","soil"],["高校","こうこう","high school"],["十一","じゅういち","eleven"],["歩きます","あるきます","walk"],["毎週","まいしゅう","every week"],["六十一さい","ろくじゅういっさい","61 years old"],["今月","こんげつ","this month"]]},{"a":[["出口","でぐち","exit"],["左","ひだり","left"],["生かつ","せいかつ","daily life"],["立ちます","たちます","stand up"],["行きます","いきます","go"],["新しい","あたらしい","new"],["一年","いちねん","one year"],["日本語の本","にほんごのほん","Japanese book"],["天ごく","てんごく","heaven"],["来年","らいねん","next year"],["休みの日","やすみのひ","holiday"],["耳","みみ","ear"],["入学","にゅうがく","entering school"],["西","にし","west"],["ふじ山","ふじさん","Mt. Fuji"],["さん歩","さんぽ","stroll"],["少ない","すくない","few"],["毎年","まいとし","every year"],["お父さん","おとうさん","someone's father"],["月","つき","moon"],["五時","ごじ","five o'clock"],["会話","かいわ","conversation"],["土よう日","どようび","Saturday"],["三がい","さんがい","3rd floor"],["八千","はっせん","eight thousand"]],"b":[["学校で","がっこうで","at school"],["気もち","きもち","feeling"],["一本","いっぽん","one (long thing)"],["年","とし","year / age"],["見ます","みます","see / watch"],["今週","こんしゅう","this week"],["食じ","しょくじ","meal"],["車","くるま","car"],["四千六百円","よんせんろっぴゃくえん","4,600 yen"],["道","みち","road / way"],["先生","せんせい","teacher"],["来ない","こない","do not come"],["男の人","おとこのひと","male person"],["先週","せんしゅう","last week"],["一番目","いちばんめ","first (in order)"],["会ぎ","かいぎ","meeting"],["一かい","いっかい","1st floor"],["言います","いいます","say"],["小さい","ちいさい","small"],["後ろ","うしろ","behind"],["中国","ちゅうごく","China"],["八千八百九十二","はっせんはっぴゃくきゅうじゅうに","8,892"],["十五日","じゅうごにち","15th (day)"],["電車","でんしゃ","train"],["外国人","がいこくじん","foreigner"]]},{"a":[["水よう日","すいようび","Wednesday"],["千五百","せんごひゃく","1,500"],["六時","ろくじ","six o'clock"],["八つ","やっつ","eight (things)"],["手足","てあし","hands and feet"],["男","おとこ","man"],["三つ","みっつ","three (things)"],["六十さい","ろくじゅっさい","60 years old"],["食べます","たべます","eat"],["買います","かいます","buy"],["四時","よじ","four o'clock"],["読みます","よみます","read"],["日本から","にほんから","from Japan"],["しけん中","しけんちゅう","under examination"],["空","そら","sky"],["飲みます","のみます","drink"],["小学校","しょうがっこう","elementary school"],["社長","しゃちょう","company president"],["七時間","しちじかん","seven hours"],["会います","あいます","meet"],["電話","でんわ","telephone"],["八分","はっぷん","eight minutes"],["一人","ひとり","one person"],["三時間後","さんじかんご","three hours later"],["来ます","きます","come"]],"b":[["見学します","けんがくします","tour / visit to learn"],["水を飲みます","みずをのみます","drink water"],["中国人","ちゅうごくじん","Chinese person"],["入ります","はいります","enter"],["三足","さんぞく","three pairs (of shoes)"],["木の下","きのした","under the tree"],["午後六時","ごごろくじ","6 p.m."],["三百円","さんびゃくえん","300 yen"],["社会","しゃかい","society"],["何日","なんにち","how many days"],["手","て","hand"],["魚つり","さかなつり","fishing"],["東","ひがし","east"],["北","きた","north"],["木","き","tree"],["子ども","こども","child"],["三千","さんぜん","three thousand"],["友人","ゆうじん","friend (formal)"],["読む前に","よむまえに","before reading"],["空きます","あきます","become empty"],["足","あし","leg / foot"],["入れます","いれます","put in"],["後で","あとで","later"],["聞きます","ききます","hear / listen"],["魚","さかな","fish"]]},{"a":[["お母さん","おかあさん","someone's mother"],["白い花","しろいはな","white flower"],["来月","らいげつ","next month"],["電話で","でんわで","by phone"],["何よう日","なんようび","what day of the week"],["左右を見て","さゆうをみて","look left and right"],["日本","にほん","Japan"],["大学","だいがく","university"],["九時","くじ","nine o'clock"],["ひる休み","ひるやすみ","lunch break"],["父","ちち","my father"],["左右","さゆう","left and right"],["新しい店","あたらしいみせ","new shop"],["八百","はっぴゃく","eight hundred"],["目","め","eye"],["きょ年","きょねん","last year"],["雨の日","あめのひ","rainy day"],["右","みぎ","right"],["電気","でんき","electricity"],["学びます","まなびます","study / learn"],["先月","せんげつ","last month"],["四月","しがつ","April"],["少し","すこし","a little"],["九月三日","くがつみっか","September 3rd"],["二時間","にじかん","two hours"]],"b":[["大きいです","おおきいです","it is big"],["百一","ひゃくいち","101"],["上下","じょうげ","up and down"],["学生","がくせい","student"],["十万","じゅうまん","one hundred thousand"],["母","はは","my mother"],["日よう日","にちようび","Sunday"],["小さい店","ちいさいみせ","small shop"],["安ぜん","あんぜん","safe"],["花や","はなや","flower shop"],["半分","はんぶん","half"],["九つ","ここのつ","nine (things)"],["書きます","かきます","write"],["入口","いりぐち","entrance"],["多いです","おおいです","there are many"],["口","くち","mouth"],["店","みせ","shop"],["出します","だします","send / take out"],["道ろ","どうろ","highway"],["きっさ店","きっさてん","coffee shop"],["大人","おとな","adult"],["四時半","よじはん","4:30"],["何か","なにか","something"],["三本","さんぼん","three (long things)"],["三か月","さんかげつ","three months"]]},{"a":[["一万","いちまん","ten thousand"],["百人","ひゃくにん","100 people"],["長い","ながい","long"],["安い","やすい","cheap"],["今日","きょう","today"],["金よう日","きんようび","Friday"],["三百","さんびゃく","three hundred"],["十","じゅう","ten"],["六時半","ろくじはん","6:30"],["六かい","ろっかい","6th floor"],["古い店","ふるいみせ","old shop"],["来る","くる","come (plain form)"],["花見","はなみ","cherry blossom viewing"],["外国","がいこく","foreign country"],["休みます","やすみます","rest"],["八時三十分","はちじさんじゅっぷん","8:30"],["五十八さい","ごじゅうはっさい","58 years old"],["二十","にじゅう","twenty"],["今","いま","now"],["今年","ことし","this year"],["言ば","ことば","word"],["駅","えき","station"],["友だち","ともだち","friend"],["出ます","でます","leave / go out"],["何人","なんにん","how many people"]],"b":[["一番下","いちばんした","the very bottom"],["三年","さんねん","three years"],["二人","ふたり","two people"],["水","みず","water"],["新年","しんねん","new year"],["木よう日","もくようび","Thursday"],["十四日","じゅうよっか","14th (day)"],["女","おんな","woman"],["男の子","おとこのこ","boy"],["日本語","にほんご","Japanese language"],["何ですか","なんですか","what is it?"],["何年","なんねん","what year"],["新聞","しんぶん","newspaper"],["話す","はなす","speak"],["天気","てんき","weather"],["百万","ひゃくまん","one million"],["二千十五年","にせんじゅうごねん","the year 2015"],["一週間前","いっしゅうかんまえ","one week ago"],["七つ","ななつ","seven (things)"],["じてん車","じてんしゃ","bicycle"],["花びん","かびん","flower vase"],["行きたい","いきたい","want to go"],["一番","いちばん","number one / most"],["学校","がっこう","school"],["午前","ごぜん","a.m."]]},{"a":[["上","うえ","above / on"],["南","みなみ","south"],["会社","かいしゃ","company"],["歩きます","あるきます","walk"],["生きます","いきます","live"],["休日","きゅうじつ","day off"],["国","くに","country"],["毎週","まいしゅう","every week"],["川","かわ","river"],["校長","こうちょう","principal"],["人","ひと","person"],["行く時","いくとき","when going"],["高校の先生","こうこうのせんせい","high school teacher"],["外","そと","outside"],["五時間","ごじかん","five hours"],["一つ","ひとつ","one (thing)"],["五つ","いつつ","five (things)"],["高い","たかい","tall / expensive"],["四つ","よっつ","four (things)"],["午前十時","ごぜんじゅうじ","10 a.m."],["十万三千","じゅうまんさんぜん","103,000"],["電気会社","でんきがいしゃ","electric company"],["名前","なまえ","name"],["白い","しろい","white"],["山","やま","mountain"]],"b":[["魚や","さかなや","fish shop"],["分かります","わかります","understand"],["火","ひ","fire"],["午後","ごご","p.m."],["時間","じかん","hour / time"],["十八さい","じゅうはっさい","18 years old"],["二つ","ふたつ","two (things)"],["今月","こんげつ","this month"],["女の子","おんなのこ","girl"],["六つ","むっつ","six (things)"],["土","つち","soil"],["来週","らいしゅう","next week"],["毎月","まいつき","every month"],["十一","じゅういち","eleven"],["火よう日","かようび","Tuesday"],["古い","ふるい","old"],["中学校","ちゅうがっこう","junior high school"],["駅の前","えきのまえ","in front of the station"],["中","なか","inside"],["二さつ","にさつ","two (books)"],["白いくつ","しろいくつ","white shoes"],["大きい白いうち","おおきいしろいうち","big white house"],["六十一さい","ろくじゅういっさい","61 years old"],["北へ","きたへ","to the north"],["高校","こうこう","high school"]]},{"a":[["下","した","below / under"],["三がい","さんがい","3rd floor"],["先週","せんしゅう","last week"],["八千八百九十二","はっせんはっぴゃくきゅうじゅうに","8,892"],["耳","みみ","ear"],["入学","にゅうがく","entering school"],["来年","らいねん","next year"],["出口","でぐち","exit"],["さん歩","さんぽ","stroll"],["休みの日","やすみのひ","holiday"],["お金","おかね","money"],["電車","でんしゃ","train"],["日本語の本","にほんごのほん","Japanese book"],["行きます","いきます","go"],["会話","かいわ","conversation"],["言います","いいます","say"],["学校で","がっこうで","at school"],["小さい","ちいさい","small"],["先生","せんせい","teacher"],["土よう日","どようび","Saturday"],["食じ","しょくじ","meal"],["見ます","みます","see / watch"],["お父さん","おとうさん","someone's father"],["八千","はっせん","eight thousand"],["ふじ山","ふじさん","Mt. Fuji"]],"b":[["間に","あいだに","between"],["外国人","がいこくじん","foreigner"],["一本","いっぽん","one (long thing)"],["年","とし","year / age"],["五時","ごじ","five o'clock"],["生かつ","せいかつ","daily life"],["お先に","おさきに","after you / ahead"],["気もち","きもち","feeling"],["左","ひだり","left"],["中国","ちゅうごく","China"],["一年","いちねん","one year"],["今週","こんしゅう","this week"],["男の人","おとこのひと","male person"],["手がみ","てがみ","letter"],["毎日","まいにち","every day"],["西","にし","west"],["来ない","こない","do not come"],["一かい","いっかい","1st floor"],["毎年","まいとし","every year"],["車","くるま","car"],["新しい","あたらしい","new"],["円い","まるい","round"],["会ぎ","かいぎ","meeting"],["立ちます","たちます","stand up"],["少ない","すくない","few"]]},{"a":[["何日","なんにち","how many days"],["聞きます","ききます","hear / listen"],["読みます","よみます","read"],["しけん中","しけんちゅう","under examination"],["社長","しゃちょう","company president"],["東","ひがし","east"],["八つ","やっつ","eight (things)"],["子ども","こども","child"],["木の下","きのした","under the tree"],["午後六時","ごごろくじ","6 p.m."],["四千六百円","よんせんろっぴゃくえん","4,600 yen"],["三つ","みっつ","three (things)"],["天ごく","てんごく","heaven"],["会います","あいます","meet"],["北","きた","north"],["電話","でんわ","telephone"],["日本から","にほんから","from Japan"],["空きます","あきます","become empty"],["空","そら","sky"],["三時間後","さんじかんご","three hours later"],["読む前に","よむまえに","before reading"],["三千","さんぜん","three thousand"],["三足","さんぞく","three pairs (of shoes)"],["千五百","せんごひゃく","1,500"],["入れます","いれます","put in"]],"b":[["七時間","しちじかん","seven hours"],["一番目","いちばんめ","first (in order)"],["道","みち","road / way"],["月","つき","moon"],["魚つり","さかなつり","fishing"],["水を飲みます","みずをのみます","drink water"],["後ろ","うしろ","behind"],["手","て","hand"],["四時","よじ","four o'clock"],["中国人","ちゅうごくじん","Chinese person"],["買います","かいます","buy"],["一人","ひとり","one person"],["飲みます","のみます","drink"],["十五日","じゅうごにち","15th (day)"],["男","おとこ","man"],["水よう日","すいようび","Wednesday"],["食べます","たべます","eat"],["六時","ろくじ","six o'clock"],["後で","あとで","later"],["小学校","しょうがっこう","elementary school"],["三百円","さんびゃくえん","300 yen"],["社会","しゃかい","society"],["足","あし","leg / foot"],["六十さい","ろくじゅっさい","60 years old"],["魚","さかな","fish"]]},{"a":[["八分","はっぷん","eight minutes"],["雨の日","あめのひ","rainy day"],["入口","いりぐち","entrance"],["来月","らいげつ","next month"],["右","みぎ","right"],["お母さん","おかあさん","someone's mother"],["電話で","でんわで","by phone"],["三本","さんぼん","three (long things)"],["ひる休み","ひるやすみ","lunch break"],["九つ","ここのつ","nine (things)"],["上下","じょうげ","up and down"],["何か","なにか","something"],["少し","すこし","a little"],["左右を見て","さゆうをみて","look left and right"],["手足","てあし","hands and feet"],["何よう日","なんようび","what day of the week"],["目","め","eye"],["入ります","はいります","enter"],["日本","にほん","Japan"],["先月","せんげつ","last month"],["出します","だします","send / take out"],["道ろ","どうろ","highway"],["左右","さゆう","left and right"],["電気","でんき","electricity"],["見学します","けんがくします","tour / visit to learn"]],"b":[["口","くち","mouth"],["母","はは","my mother"],["大学","だいがく","university"],["八百","はっぴゃく","eight hundred"],["二時間","にじかん","two hours"],["書きます","かきます","write"],["九時","くじ","nine o'clock"],["四月","しがつ","April"],["友人","ゆうじん","friend (formal)"],["多いです","おおいです","there are many"],["半分","はんぶん","half"],["三か月","さんかげつ","three months"],["日よう日","にちようび","Sunday"],["花や","はなや","flower shop"],["来ます","きます","come"],["新しい店","あたらしいみせ","new shop"],["きょ年","きょねん","last year"],["大人","おとな","adult"],["小さい店","ちいさいみせ","small shop"],["九月三日","くがつみっか","September 3rd"],["学生","がくせい","student"],["木","き","tree"],["きっさ店","きっさてん","coffee shop"],["四時半","よじはん","4:30"],["白い花","しろいはな","white flower"]]}];
+const KEY = "nihongo-mahir-sensei.v1";
+const TOTAL = 30 * 60;
+
+/* ---------- tolerance: other correct ways to write the same word ---------- */
+const ALT_KANJI = {
+ "一かい":["一階"],"三がい":["三階"],"六かい":["六階"],"天ごく":["天国"],"生かつ":["生活"],"言ば":["言葉"],"会ぎ":["会議"],
+ "食じ":["食事"],"安ぜん":["安全"],"道ろ":["道路"],"気もち":["気持ち"],"手がみ":["手紙"],"さん歩":["散歩"],"じてん車":["自転車"],
+ "花びん":["花瓶"],"魚つり":["魚釣り"],"きっさ店":["喫茶店"],"ふじ山":["富士山"],"二さつ":["二冊"],"十八さい":["十八歳"],
+ "六十一さい":["六十一歳"],"六十さい":["六十歳"],"五十八さい":["五十八歳"],"しけん中":["試験中"],"友だち":["友達"],"子ども":["子供"],
+ "白いくつ":["白い靴"],"魚や":["魚屋"],"花や":["花屋"],"大きい白いうち":["大きい白い家"],"日よう日":["日曜日"],"火よう日":["火曜日"],
+ "水よう日":["水曜日"],"木よう日":["木曜日"],"金よう日":["金曜日"],"土よう日":["土曜日"],"何よう日":["何曜日"],"ひる休み":["昼休み"],"きょ年":["去年"]
+};
+const ALT_READ = {"日本":["にっぽん"],"六十さい":["ろくじっさい"],"八分":["はちふん"]};
+
+/* ---------- storage (stays in this browser only) ---------- */
+let store = { name:"", theme:"", history:[] };
+function load(){ try{ const s = JSON.parse(localStorage.getItem(KEY)||"null"); if(s && typeof s==="object"){ store = Object.assign(store, s); if(!Array.isArray(store.history)) store.history=[]; } }catch(e){} }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(store)); }catch(e){} }
+load();
+
+/* ---------- helpers ---------- */
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const norm = s => String(s||"").normalize("NFKC").replace(/[\s\u3000]+/g,"").replace(/[。、，,.!?！？]/g,"");
+const fmtTime = s => { s=Math.max(0,Math.round(s)); return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0"); };
+const fmtDate = iso => { try{ return new Date(iso).toLocaleDateString(undefined,{day:"numeric",month:"short",year:"numeric"}); }catch(e){ return ""; } };
+const app = $("#app");
+function toast(msg){ const t=document.createElement("div"); t.className="toast"; t.setAttribute("role","status"); t.textContent=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),2600); }
+
+/* ---------- theme ---------- */
+function applyTheme(){
+  const root = document.documentElement;
+  if(store.theme) root.setAttribute("data-theme", store.theme); else root.removeAttribute("data-theme");
+  const dark = store.theme ? store.theme==="dark" : matchMedia("(prefers-color-scheme:dark)").matches;
+  $("#themeBtn").textContent = dark ? "☀" : "☾";
+}
+function toggleTheme(){
+  const dark = store.theme ? store.theme==="dark" : matchMedia("(prefers-color-scheme:dark)").matches;
+  store.theme = dark ? "light" : "dark"; save(); applyTheme();
+}
+function updateName(){ $("#nameLabel").textContent = store.name || "Add your name"; }
+
+/* ---------- data ---------- */
+const ALL = (() => { const m = new Map(); SETS.forEach(s => s.a.concat(s.b).forEach(w => { if(!m.has(w[0])) m.set(w[0], w); })); return Array.from(m.values()); })();
+function bestFor(n){ let b=null; store.history.forEach(h => { if(h.set===n && (b===null || h.score>b)) b=h.score; }); return b; }
+function nextSet(){ for(let n=1;n<=20;n++){ if(bestFor(n)===null) return n; } const last = store.history[0]; return last ? (last.set % 20) + 1 : 1; }
+
+
+/* ---------- navigation pages ---------- */
+function crumbs(p){ return `<nav class="crumbs" aria-label="Breadcrumb">${p.map(([n,to],i)=> to ? `<button class="link" data-action="${to==="home"?"home":"go"}" data-to="${to}">${n}</button><span>/</span>` : `<b style="color:var(--ink)">${n}</b>`).join("")}</nav>`; }
+function lv(title,sub,jp,to,on){ return `<button class="lv ${on?"":"off"}" ${on?`data-action="go" data-to="${to}"`:'aria-disabled="true" tabindex="-1"'}><span class="jp" lang="ja">${jp}</span><b>${title}</b><small>${sub}</small>${on?"":"<em>Coming soon</em>"}</button>`; }
+function page(cr,h,sub,cards){ app.innerHTML = cr + `<section style="margin-top:18px"><h2 style="font-size:32px">${h}</h2><p class="sub">${sub}</p><div class="grid-lv">${cards}</div></section>`; window.scrollTo(0,0); }
+function renderHome(){
+  stopTimer(); window.onbeforeunload = null;
+  const hi = store.name ? `こんにちは、${esc(store.name)}` : "Welcome";
+  page("", hi, "Choose your JLPT level. N5 is open now. N4 to N1 will follow.",
+    lv("N5","Learn and mock tests","五","n5",true)+lv("N4","Coming later","四","",false)+lv("N3","Coming later","三","",false)+lv("N2","Coming later","二","",false)+lv("N1","Coming later","一","",false));
+}
+function renderN5(){
+  page(crumbs([["Levels","home"],["N5",""]]), "N5", "Learn first, then test yourself.",
+    lv("Learn vocabulary","25 lessons, about 970 words","語彙","vocab",true)+lv("Learn grammar","Lesson 1 is ready","文法","grammar",true)+lv("Learn kanji","105 kanji with readings and words","漢字","kanji",true)+lv("Mock tests","Vocabulary, kanji, grammar and the full test","模試","mock",true));
+}
+function renderMock(){
+  page(crumbs([["Levels","home"],["N5","n5"],["Mock tests",""]]), "N5 mock tests", "Pick the part you want to be tested on.",
+    lv("Vocabulary mock","Word meaning and use","語彙","",false)+lv("Kanji mock","20 timed sets, 50 questions each","漢字","kanjimock",true)+lv("Grammar mock","Sentence patterns","文法","",false)+lv("Full mock test","All parts together, 180 marks","総合","",false));
+}
+
+
+/* ---------- grammar ---------- */
+const GRAM = {1:{topic:"A は B です", tip:"Lesson 1-এর মূল কাজ হলো বাক্যের Subject চেনা। বাক্যে যার সম্পর্কে বলা হচ্ছে, সেটাই Subject। ক্রিয়াকে ‘কে’ দিয়ে প্রশ্ন করলে যে উত্তর পাওয়া যায়, সেটাও Subject।", rules:[
+ {t:"Noun は Noun です", f:"A は B です", b:"যে বাক্যে মূল ক্রিয়া (verb) থাকে না, সেখানে শেষে です বসে। です-র আলাদা কোনো অর্থ নেই, এটা বাক্যটাকে ভদ্রভাবে শেষ করে। Subject-এর পরে particle は বসে, আর এখানে は-র উচ্চারণ ‘হা’ নয়, ‘ওয়া’।", jp:"わたしは マヒルです。", bn:"আমি মাহির।", n:"জাপানি নয় এমন বিদেশি নাম কাতাকানায় লেখা হয়, তাই マヒル কাতাকানায়।"},
+ {t:"প্রশ্ন করা: か", f:"A は B ですか", b:"প্রশ্ন বানাতে বাক্যের শেষে です-র পরে か বসান। আলাদা প্রশ্নচিহ্ন লাগে না, বলার সময় শেষে সুর একটু ওপরে ওঠে। উত্তরে はい (হ্যাঁ) বা いいえ (না) বলা হয়।", jp:"あなたは がくせいですか。", bn:"তুমি কি ছাত্র?", a:"はい、がくせいです。"},
+ {t:"না-বোধক: じゃありません", f:"A は B じゃありません", b:"না বোঝাতে です-র জায়গায় じゃありません বসে। ではありません বললেও একই অর্থ, তবে কথায় じゃありません বেশি চলে।", jp:"マヒルさんは せんせいじゃありません。", bn:"মাহির শিক্ষক নন।", n:"অন্যের নামের পরে さん বসে। নিজের নামের পরে さん কখনো বসে না।"},
+ {t:"‘ও’ বোঝাতে: も", f:"A も B です", b:"আগের কথার সাথে মিল থাকলে は-র জায়গায় も বসে, অর্থ ‘ও’ বা ‘-ও’। একই শব্দের পরে は আর も পাশাপাশি বসে না।", jp:"わたしも がくせいです。", bn:"আমিও ছাত্র।", n:"も বসালে は বসানো যাবে না। ‘わたしは も’ বলা ভুল।"},
+ {t:"মালিকানা বা সম্পর্ক: の", f:"A の B", b:"の দুটো noun জোড়া দেয়। বাংলায় এর অর্থ ‘র’ বা ‘এর’। বাঁ দিকের noun ডান দিকের noun-এর মালিক বা পরিচয় বোঝায়।", jp:"マヒルさんは にほんごの せんせいです。", bn:"মাহির জাপানি ভাষার শিক্ষক।"}]}};
+function renderGrammar(){
+  const cards = Array.from({length:25},(_,i)=>{ const n=i+1; return lv("Lesson "+n, GRAM[n]?GRAM[n].topic:"Coming soon", String(n), GRAM[n]?"lesson"+n:"", !!GRAM[n]); }).join("");
+  page(crumbs([["Levels","home"],["N5","n5"],["Learn grammar",""]]),"N5 grammar","Twenty-five lessons, one at a time. All examples are in hiragana and katakana.",cards);
+}
+function renderLesson(n){
+  const L = GRAM[n]; if(!L) return renderGrammar();
+  const rules = L.rules.map((r,i)=>`<article class="card rule"><h3><span class="rn">${i+1}</span>${esc(r.t)}</h3>
+    <div class="formula" lang="ja">${esc(r.f)}</div><p>${esc(r.b)}</p>
+    <div class="ex"><div class="jp" lang="ja">${spk(r.jp)} ${esc(r.jp)}</div><div class="bn">${esc(r.bn)}</div>${r.a?`<div class="ans" lang="ja">${esc(r.a)}</div>`:""}</div>
+    ${r.n?`<div class="note">${esc(r.n)}</div>`:""}</article>`).join("");
+  app.innerHTML = crumbs([["Levels","home"],["N5","n5"],["Learn grammar","grammar"],["Lesson "+n,""]]) + `<section style="margin-top:18px"><h2 style="font-size:32px">Lesson ${n}: <span lang="ja">${esc(L.topic)}</span></h2><p class="sub">${L.rules.length} rules, each with one example.</p>${rules}
+    <div class="card rule" style="background:var(--surface2)"><p style="margin:0">${esc(L.tip)}</p></div>
+    <div style="display:flex;gap:10px;margin:22px 0 40px"><button class="btn btn-ghost" data-action="go" data-to="grammar">All lessons</button></div></section>`;
+  window.scrollTo(0,0);
+}
+
+
+
+const BN = new Map(("一かい|এক তলা (নিচতলা)\n三がい|তিন তলা\n六かい|ছয় তলা\n一つ|একটি\n二つ|দুটি\n三つ|তিনটি\n四つ|চারটি\n五つ|পাঁচটি\n六つ|ছয়টি\n七つ|সাতটি\n八つ|আটটি\n九つ|নয়টি\n十|দশ\n十一|এগারো\n二十|বিশ\n百一|একশো এক\n八百|আটশো\n百人|একশো জন মানুষ\n三百|তিনশো\n千五百|এক হাজার পাঁচশো\n三千|তিন হাজার\n八千|আট হাজার\n一万|দশ হাজার\n十万|এক লক্ষ\n百万|দশ লক্ষ\n今|এখন\n日よう日|রবিবার\n今日|আজ\n十四日|চৌদ্দ তারিখ\n十五日|পনেরো তারিখ\n口|মুখ\n学びます|শিখি\n学校|স্কুল\n行きます|যাই\n日本|জাপান\n一本|একটি (লম্বা বস্তু)\n三本|তিনটি (লম্বা বস্তু)\n日本語|জাপানি ভাষা\n四時|চারটা\n行く時|যাওয়ার সময়\n間に|মাঝে\n時間|ঘণ্টা, সময়\n七時間|সাত ঘণ্টা\n天ごく|স্বর্গ\n天気|আবহাওয়া\n気もち|অনুভূতি\n雨の日|বৃষ্টির দিন\nお先に|আপনার আগে (বিনয়ের সঙ্গে)\n先月|গত মাস\n生きます|বেঁচে থাকি\n生かつ|দৈনন্দিন জীবন\n先生|শিক্ষক\n学生|ছাত্র\n言います|বলি\n言ば|শব্দ\n月|চাঁদ\n四月|এপ্রিল\n三か月|তিন মাস\n今月|এই মাস\n火|আগুন\n火よう日|মঙ্গলবার\n水|পানি\n水よう日|বুধবার\n木|গাছ\n木よう日|বৃহস্পতিবার\nお金|টাকা\n金よう日|শুক্রবার\n土|মাটি\n土よう日|শনিবার\n会います|দেখা করি\n会ぎ|সভা\n会社|কোম্পানি\n社会|সমাজ\n読みます|পড়ি\n目|চোখ\n見ます|দেখি\n見学します|পরিদর্শন করে শিখি\n何ですか|এটা কী?\n何か|কিছু একটা\n何日|কত দিন, কত তারিখ\n何よう日|কোন বার\n高い|উঁচু, দামি\n高校|উচ্চ বিদ্যালয়\n休みます|বিশ্রাম নিই\n休みの日|ছুটির দিন\n休日|অবকাশের দিন\n名前|নাম\n読む前に|পড়ার আগে\n後で|পরে\n三時間後|তিন ঘণ্টা পরে\n後ろ|পেছনে\n友だち|বন্ধু\n友人|বন্ধু (আনুষ্ঠানিক)\n午前|সকাল (পূর্বাহ্ণ)\n午後|বিকাল (অপরাহ্ণ)\n四時半|সাড়ে চারটা\n外|বাইরে\n中|ভেতরে\nしけん中|পরীক্ষা চলছে\n中学校|মাধ্যমিক বিদ্যালয়\n国|দেশ\n外国|বিদেশ\n中国|চীন\n年|বছর, বয়স\n一年|এক বছর\n今年|এই বছর\n二千十五年|দুই হাজার পনেরো সাল\n何年|কত বছর, কোন সাল\n店|দোকান\nきっさ店|চা-কফির দোকান\n新しい|নতুন\n新年|নববর্ষ\n古い|পুরনো\n耳|কান\n聞きます|শুনি\n新聞|সংবাদপত্র\n入ります|প্রবেশ করি\n入学|বিদ্যালয়ে ভর্তি\n入れます|ভেতরে রাখি\n入口|প্রবেশপথ\n人|মানুষ\n一人|একজন\n二人|দুজন\n何人|কতজন\n外国人|বিদেশি মানুষ\n中国人|চীনা মানুষ\n買います|কিনি\n電気|বিদ্যুৎ\n車|গাড়ি\nじてん車|সাইকেল\n電車|ট্রেন\n食べます|খাই\n食じ|আহার\n小さい|ছোট\n小学校|প্রাথমিক বিদ্যালয়\n少ない|অল্প\n少し|একটু\n出ます|বের হই\n出します|বের করি, পাঠাই\n出口|বহির্গমন পথ\n多いです|অনেক আছে\n大きいです|বড়\n大人|প্রাপ্তবয়স্ক\n大学|বিশ্ববিদ্যালয়\n父|আমার বাবা\nお父さん|(অন্যের) বাবা\n母|আমার মা\nお母さん|(অন্যের) মা\n書きます|লিখি\n一週間前|এক সপ্তাহ আগে\n今週|এই সপ্তাহ\n先週|গত সপ্তাহ\n北|উত্তর\n南|দক্ষিণ\n西|পশ্চিম\n東|পূর্ব\n上|উপরে\n下|নিচে\n上下|উপর-নিচ\n左|বাঁ\n右|ডান\n左右|বাঁ ও ডান\n白い|সাদা\n白い花|সাদা ফুল\n花見|ফুল দেখার উৎসব\n花びん|ফুলদানি\n駅|স্টেশন\n歩きます|হাঁটি\nさん歩|হাঁটাহাঁটি\n一番|এক নম্বর, সবচেয়ে\n一番目|প্রথম\n魚|মাছ\n魚つり|মাছ ধরা\n道|রাস্তা, পথ\n道ろ|সড়ক\n山|পাহাড়\nふじ山|ফুজি পর্বত\n川|নদী\n来ます|আসি\n来ない|আসি না\n来る|আসা (সাধারণ রূপ)\n来年|আগামী বছর\n来月|আগামী মাস\n来週|আগামী সপ্তাহ\n男|পুরুষ\n男の人|পুরুষ মানুষ\n女|নারী\n子ども|শিশু\n男の子|ছেলে\n女の子|মেয়ে\n長い|লম্বা\n社長|কোম্পানির প্রধান\n校長|প্রধান শিক্ষক\n立ちます|দাঁড়াই\n手|হাত\n手がみ|চিঠি\n足|পা\n三足|তিন জোড়া (জুতা)\n毎日|প্রতিদিন\n毎週|প্রতি সপ্তাহ\n毎月|প্রতি মাস\n毎年|প্রতি বছর\n飲みます|পান করি\n空|আকাশ\n空きます|খালি হয়\n分かります|বুঝি\n八分|আট মিনিট\n半分|অর্ধেক\n四千六百円|চার হাজার ছয়শো ইয়েন\n円い|গোল\n安い|সস্তা\n安ぜん|নিরাপদ\n話す|কথা বলি\n会話|কথোপকথন\n電話|টেলিফোন\n十八さい|আঠারো বছর বয়স\n六十一さい|একষট্টি বছর বয়স\n六十さい|ষাট বছর বয়স\n五十八さい|আটান্ন বছর বয়স\n五時間|পাঁচ ঘণ্টা\n六時半|সাড়ে ছয়টা\n八時三十分|আটটা তিরিশ\n手足|হাত-পা\n三百円|তিনশো ইয়েন\n二時間|দুই ঘণ্টা\n九時|নয়টা\n五時|পাঁচটা\n二さつ|দুটি (বই)\n八千八百九十二|আট হাজার আটশো বিরানব্বই\n十万三千|এক লক্ষ তিন হাজার\n九月三日|তিন সেপ্টেম্বর\n木の下|গাছের নিচে\n三年|তিন বছর\n電気会社|বিদ্যুৎ কোম্পানি\n一番下|সবচেয়ে নিচে\n六時|ছয়টা\n午前十時|সকাল দশটা\n午後六時|বিকাল ছয়টা\nひる休み|দুপুরের বিরতি\n日本語の本|জাপানি ভাষার বই\n学校で|স্কুলে\n高校の先生|উচ্চ বিদ্যালয়ের শিক্ষক\n駅の前|স্টেশনের সামনে\n北へ|উত্তর দিকে\n新しい店|নতুন দোকান\n古い店|পুরনো দোকান\n小さい店|ছোট দোকান\n魚や|মাছের দোকান\n花や|ফুলের দোকান\n大きい白いうち|বড় সাদা বাড়ি\n電話で|ফোনে\n水を飲みます|পানি পান করি\nきょ年|গত বছর\n行きたい|যেতে চাই\n左右を見て|বাঁ ও ডানে দেখে\n白いくつ|সাদা জুতা\n日本から|জাপান থেকে").split("\n").map(s=>s.split("|")));
+const BNK = "এক|দুই|তিন|চার|পাঁচ|ছয়|সাত|আট|নয়|দশ|শত (একশো)|হাজার|দশ হাজার|এখন|দিন, সূর্য|মুখ|শেখা|স্কুল|যাওয়া|বই, মূল|ভাষা|সময়|মাঝখান, বিরতি|আকাশ, স্বর্গ|মন, অনুভূতি|বৃষ্টি|আগের, সামনে|জীবন, জন্ম|বলা, কথা|চাঁদ, মাস|আগুন|পানি|গাছ|সোনা, টাকা|মাটি|দেখা করা|কোম্পানি, মন্দির|পড়া|চোখ|দেখা|কী|উঁচু, দামি|বিশ্রাম|নাম|আগে, সামনে|পরে, পেছনে|বন্ধু|দুপুর|অর্ধেক|বাইরে|ভেতর, মাঝ|দেশ|বছর|দোকান|নতুন|পুরনো|কান|শোনা, জিজ্ঞাসা করা|প্রবেশ করা|মানুষ|কেনা|বিদ্যুৎ|গাড়ি|খাওয়া|ছোট|অল্প|বের হওয়া|অনেক|বড়|বাবা|মা|লেখা|সপ্তাহ|উত্তর|দক্ষিণ|পশ্চিম|পূর্ব|উপর|নিচ|বাঁ|ডান|সাদা|ফুল|স্টেশন|হাঁটা|নম্বর, পালা|মাছ|পথ|পাহাড়|নদী|আসা|পুরুষ|নারী|শিশু|লম্বা, প্রধান|দাঁড়ানো|হাত|পা|প্রতি|পান করা|আকাশ, খালি|মিনিট, বোঝা|ইয়েন, গোল|সস্তা, নিরাপদ|কথা বলা".split("|");
+let VOICE = null;
+function pickVoice(){ if(!("speechSynthesis" in window)) return; const vs = speechSynthesis.getVoices(); VOICE = vs.find(v=>/^ja/i.test(v.lang)) || null; }
+if("speechSynthesis" in window){ pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
+function speak(text){
+  if(!("speechSynthesis" in window)){ toast("This browser cannot play sound"); return; }
+  pickVoice();
+  if(!VOICE){ toast("No Japanese voice found on this device. Add one in your phone or computer language settings."); }
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text); u.lang = "ja-JP"; u.rate = .85; if(VOICE) u.voice = VOICE;
+  speechSynthesis.speak(u);
+}
+const spk = t => `<button class="spk" data-action="speak" data-t="${esc(t)}" aria-label="Play sound">🔊</button>`;
+
+/* ---------- vocabulary and kanji lessons ---------- */
+const VOCAB = [[1,[["わたし","I"],["あなた","You"],["あの人／あの方","That person,he,she"],["～さん","Mr.,Ms.,"],["～ちゃん","Suffix often added to a Child’s name instead of ～さん"],["～じん","Suffix meaning ‘a national of’"],["せんせい","Teacher, Instructor"],["きょうし","Teacher, Instructor"],["がくせい","Student"],["かいしゃいん","Company employee"],["しゃいん","Employee of – company"],["ぎんこういん","Bank employee"],["いしゃ","Doctor"],["けんきゅうしゃ","Researcher,scholar"],["だいがく","University"],["びょういん","Hospital"],["だれ（どなた）","Who"],["―さい","-years old"],["なんさい（おいくつ）","How old"],["はい","Yes"],["いいえ","No"],["はじめまして","How do you do?(I am meeting you for the first time)"],["～からきました","I’m from"],["［どうぞ］よろしく［おねがいします］","Pleased to meet you."],["しつれいですが","Excuse me, but"],["おなまえは？","May I have your name"],["こちらは～さんです","This is Mr. / Ms.-"],["アメリカ","U.S.A"],["イギリス","U.K"],["インド","India"],["インドネシア","Indonesia"],["かんこく","South Korea"],["タイ","Thailand"],["中国","China"],["ドイツ","Germany"],["日本","Japan"],["ブラジル","Brazil"]]],[2,[["これ","This (Thing here)"],["それ","That (thing near the listener)"],["あれ","That(thing over there)"],["この～","This-here"],["その～","That-near the listener"],["あの～","That-over there"],["ほん","Book"],["じしょ","Dictionary"],["ざっし","Magazine"],["しんぶん","Newspaper"],["ノート","Notebook"],["てちょう","Personal Organizer"],["めいし","Business Card"],["カード","(Credit) Card"],["えんぴつ","Pencil"],["ボールペン","Ballpoint pen"],["シャープペンシル","Mechanical Pencil"],["かぎ","Key"],["とけい","Watch , Clock"],["かさ","Umbrella"],["かばん","Bag , Briefcase"],["CD","CD, Compact Disc"],["テレビ","TV"],["ラジオ","Radio"],["カメラ","Camera"],["コンピューター","Computer"],["くるま","Car"],["つくえ","Desk"],["いす","Chair"],["チョコレート","Chocolate"],["コーヒー","Coffee"],["［お］みやげ","Present"],["えいご","The English language"],["にほんご","The Japanese language"],["～ご","-language"],["なん","What"],["そう","So"],["あのう","Er..(used to show hesitation)"],["えっ","Oh? What!"],["どうぞ","Here you are"],["［どうぞ］ありがとう［ございます］","Thank you(very Much)"],["そうですか","I see"],["ちがいます","No , isn’t / you are wrong"],["あ","Oh!"],["これからおせわになります","Thank you in advance for your kindness"],["こちらこそ［どうぞ］よろしくおねがいします","Pleased to meet you, too."]]],[3,[["ここ","Here, This place"],["そこ","There , that place near the listener"],["あそこ","Where , what place"],["どこ","Where"],["こちら","This way"],["そちら","That way"],["あちら","That way , that place over there"],["どちら","Which way, where"],["きょうしつ","Classroom"],["しょくどう","Canteen"],["じむしょ","Office"],["かいぎしつ","Meeting room"],["うけつけ","Reception desk"],["ロビー","Lobby"],["へや","Room"],["トイレ（おてあらい）","Toilet, rest room"],["かいだん","Staircase"],["エレベーター","Lift, elevator"],["エスカレーター","Escalator"],["じどうはんばいき","Vending machine"],["でんわ","Telephone"],["［お］くに","Country"],["かいしゃ","Company"],["うち","House, home"],["くつ","Shoes"],["ネクタイ","Tie, necktie"],["ワイン","Wine"],["うりば","Department"],["ちか","Basement"],["―かい（がい）","-th floor"],["なんがい","What floor"],["―えん","-yen"],["いくら","How much"],["ひゃく","Hundred"],["せん","Thousand"],["まん","Ten thousand"],["すみません","Excuse me"],["どうも","Thanks"],["いらっしゃいませ","Welcome"],["「～を」みせてください","Please, show me"],["［お］ください","Give me"],["じゃ","Well, then, in that case"],["イタリア","Italy"],["スイス","Switzerland"],["フランス","France"]]],[4,[["おきます","Get Up, Wake Up"],["ねます","Sleep , Go To Bed"],["はたらきます","Work"],["やすみます","Take A Rest, Take A Holiday"],["べんきょうします","Study"],["おわります","Finish"],["デパート","Department Store"],["ぎんこう","Bank"],["ゆうびんきょく","Post Office"],["としょかん","Library"],["びじゅつかん","Art Museum"],["いま","Now"],["～じ","-O Clock"],["―ふん（―ぷん）","-Minute"],["はん","Half"],["なんじ","What Time"],["なんぷん","What Minute"],["ごぜん","A.M , Morning"],["ごご","P.M , Afternoon"],["あさ","Morning"],["ひる","Daytime, Afternoon"],["ばん（よる）","Night, Evening"],["おととい","The Day Before Yesterday"],["きのう","Yesterday"],["きょう","Today"],["あした","Tomorrow"],["あさって","The Day After Tomorrow"],["けさ","This Morning"],["こんばん","This Evening"],["やすみ","A Holiday"],["ひるやすみ","Lunchtime"],["しけん","Exam"],["かいぎ","Meeting, Conference"],["えいが","Film, Movie"],["まいあさ","Every Morning"],["まいばん","Every Night"],["まいにち","Every Day"],["げつようび","Monday"],["かようび","Tuesday"],["すいようび","Wednesday"],["もくようび","Thursday"],["きんょうび","Friday"],["どようび","Saturday"],["にちようび","Sunday"],["なんようび","What Day Of The Week"],["～から","From-"],["～まで","Up To-, Until"],["～と～","And"],["たいへんですね","That’s Tough"],["ばんごう","Number"],["なんばん","What Number"],["そちら","Your Place"],["ニューヨーク","New York"],["ペキン","Beijing"]]],[5,[["いきます","Go"],["きます","Come"],["かえります","Go Home, Return"],["がっこう","School"],["スーパー","Supermarket"],["えき","Station"],["ひこうき","Aero Plan, Airplane"],["ふね","Ship"],["でんしゃ","Electric Train"],["ちかてつ","Underground, Subway"],["しんかんせん","The Shinkansen, The Bullet Train"],["バス","Bus"],["タクシー","Taxi"],["じてんしゃ","Bicycle"],["あるいて","On Foot"],["ひと","Person, People"],["ともだち","Friend"],["かれ","He, Boyfriend, Lover"],["かのじょ","She, Girlfriend, Lover"],["かぞく","Family"],["ひとりで","Alone, By Oneself"],["せんしゅう","Last Week"],["こんしゅう","This Week"],["らいしゅう","Next Week"],["せんげつ","Last Month"],["こんげつ","This Month"],["らいげつ","Next Month"],["きょねん","Last Year"],["ことし","This Year"],["らいねん","Next Year"],["―ねん","Th Year"],["なんねん","What Year"],["―がつ","Th Month Of The Year"],["なんがつ","What Month"],["ついたち","First Day Of The Month"],["ふつか","Second Day Of The Month"],["みっか","Third Days"],["よっか","Fourth Days"],["いつか","Fifth Days"],["むいか","Sixth Days"],["なのか","Seventh Days"],["ようか","Eighth Days"],["ここのか","Ninth Days"],["とおか","Tenth"],["じゅうよっか","Fourteenth"],["はつか","Twentieth"],["にじゅうよっか","Twenty-Fourth"],["―にち","-Th Day Of The Month"],["なんにち","Which Day Of The Month"],["いつ","When"],["たんじょうび","Birthday"],["そうですね","Yes, It Is"],["ありがとうございました","Thank You Very Much"],["どういたしまして","You’re Welcome"],["―ばんせん","Platform"],["つぎの","Next"],["ふつう","Local"],["きゅうこう","Rapid"],["とっきゅう","Express"]]],[6,[["たべます","Eat"],["のみます","Drink"],["すいます","Smoke"],["みます","See, Look At, Watch"],["ききます","Hear, Listen"],["よみます","Read"],["かきます","Write"],["かいます","Buy"],["とります","Take"],["します","Do, Play"],["あいます","Meet"],["ごはん","A Meal, Cooked Rice"],["あさごはん","Breakfast"],["ひるごはん","Lunch"],["ばんごはん","Dinner"],["パン","Bread"],["たまご","Egg"],["にく","Meat"],["さかな","Fish"],["やさい","Vegetable"],["くだもの","Fruit"],["みず","Water"],["おちゃ","Black Tea"],["ぎゅうにゅう","Milk"],["ジュース","Juice"],["ビール","Beer"],["［お］さけ","Alcohol"],["たばこ","Tobacco"],["てがみ","Letter"],["レポート","Report"],["しゃしん","Photograph"],["ビデオ","Video"],["みせ","Shop, Store"],["にわ","Garden"],["しゅくだい","Homework"],["テニス","Tennis"],["サッカー","Soccer, Football"],["［お］はなみ","Cherry Blossom Viewing"],["なに","What"],["いっしょに","Together"],["ちょっと","A Little Bit"],["いつも","Always"],["ときどき","Sometimes"],["それから","After That"],["ええ","Yes"],["いいですね","That’s Good"],["わかりました","I See"],["なんですか","Yes?"],["じゃ、また「あした」","See You"]]],[7,[["きります","Cut, Slice"],["おくります","Send"],["あげます","Give"],["もらいます","Receive"],["かします","Lend"],["かります","Borrow"],["おしえます","Teach"],["ならいます","Learn"],["かけます（電話をー）","Make[A Telephone Call]"],["て","Hand, Arm"],["はし","Chopsticks"],["スプーン","Spoon"],["ナイフ","Knife"],["フォーク","Fork"],["はさみ","Scissors"],["パソコン","Personal Computer"],["ケータイ","Mobile Phone"],["メール","E-Mail"],["ねんがじょう","New Year’s Greeting Card"],["パンチ","Punch"],["ホッチキス","Stapler"],["セロテープ","Sellotape"],["けしゴム","Rubber, Eraser"],["かみ","Paper"],["はな","Flower"],["シャツ","Shirt"],["プレゼント","Present, Gift"],["にもつ","Luggage, Parcel"],["おかね","Money"],["きっぷ","Ticket"],["クリスマス","Christmas"],["ちち","(My)Father"],["はは","(My)Mother"],["おとうさん","(Someone)Father"],["おかあさん","(Someone)Mother"],["もう","Already"],["まだ","Not Yet"],["これから","From Now On"],["「～」すてきですね","What A Nice[-]"],["いらっしゃい","Welcome"],["どうぞおあがりください","Do Come In"],["しつれいします","May I?"],["「―は」いかがですか","Won’t You Have(Used When Offering Something)"],["いただきます","Said Before Starting To Eat Or Drink"],["ごちそうさまでした","Said After Eating Or Drinking"]]],[8,[["ハンサム「な」","Handsome"],["きれい「な」","Beautiful, Clean"],["しずか「な」","Quiet"],["にぎやか「な」","Lively"],["ゆうめい「な」","Famous"],["しんせつ「な」","Helpful, Kind"],["げんき「な」","Healthy, Cheerful"],["ひま「な」","Free(Time)"],["べんり「な」","Convenient"],["すてき「な」","Fine, Nice"],["おおきい","Big, Large"],["ちいさい","Small, Little"],["あたらし","New, Fresh"],["ふるい","Old"],["いい","Good"],["わるい","Bad"],["あつい","Hot"],["さむい","Cold(Referring To Temperature)"],["つめたい","Cold(Referring To Touch)"],["むずかしい","Difficult"],["やさしい","Easy"],["たかい","Expensive, Tall, High"],["やすい","Inexpensive, Cheap"],["ひくい","Low"],["おもしろい","Interesting"],["おいしい","Delicious, Tasty"],["いそがしい","Busy"],["たのしい","Enjoyable"],["しろい","White"],["くろい","Black"],["あかい","Red"],["あおい","Blue"],["さくら","Cherry"],["やま","Mountain"],["まち","Town, City"],["たべもの","Food"],["ところ","Place"],["りょう","Dormitory"],["レストラン","Restaurant"],["せいかつ","Life"],["［お］しごと","Work, Business"],["どう","How"],["どんな","What Kind Of-"],["とても","Very"],["あまり","Not So"],["そして","And"],["―が、―","-But,-"],["おげんきですか","How Are You"],["そうですね","Well Let Me See"],["もういっぱいいかがですか","Won’t You Have Another Cup Of[-]"],["「いいえ、」けっこうです","No, Thank You"],["いいえ","Not At All"],["またいらっしってください","Please, Come Again"]]],[9,[["わかります","Understand"],["あります","Have"],["すき「な」","Like"],["きらい「な」","Dislike"],["じょうず「な」","Good At"],["へた「な」","Poor At"],["のみもの","Drinks"],["りょうり","Dish"],["スポーツ","Sport"],["やきゅう","Baseball"],["ダンス","Dance"],["りょこう","Trip, Tour"],["おんがく","Music"],["うた","Song"],["クラシック","Classical Music"],["ジャズ","Jazz"],["コンサート","Concert"],["カラオケ","Karaoke"],["かぶき","Kabuki"],["え","Picture"],["じ","Letter"],["かんじ","Chinese Character"],["ひらがな","Hiragana Script"],["かたかな","Katakana Character"],["ローマ字","The Roman Alphabet"],["こまかいおかね","Small Change"],["チケット","Ticket"],["じかん","Time"],["ようじ","Something To Do"],["やくそく","Appointment, Promise"],["アルバイト","Side Job"],["ごじゅじん","Husband(Others)"],["おっと／しゅじん","(My) Husband"],["おくさん","Wife(Others)"],["つま／かない","(My)Wife"],["こども","Child"],["よく","Well, Much"],["だいたい","Mostly, Roughly"],["たくさん","Many, Much"],["すこし","A Little, A Few"],["ぜんぜん","Not At All"],["はやく","Early, Quickly"],["～から","Because-"],["どうして","Why"],["かしてください","Please Lend"],["いいですよ","Sure/Certainly"],["ざんねんです「が」","I’m Sorry"],["ああ","Oh"],["いっしょにいかがですか","Won’t You Join Me"],["「～は」ちょっと","[-] Is A Bit Difficult"],["だめですか","So You Can’t"],["またこんどおねがいします","Please Ask Me Again Some Other Time"]]],[10,[["あります","Exist, Be(Referring To Inanimate Things)"],["います","Exist, Be(Referring To Animate Things)"],["いろいろ","Various"],["おとこのひと","Man"],["おんなのひと","Woman"],["おとこのこ","Boy"],["おんなのこ","Girl"],["いぬ","Dog"],["ねこ","Cat"],["パンダ","Panda"],["ぞう","Elephant"],["き","Tree, Wood"],["もの","Thing"],["でんち","Battery"],["はこ","Box"],["スイッチ","Switch"],["れいぞうこ","Refrigerator"],["テーブル","Table"],["ベッド","Bed"],["たな","Shelf"],["ドア","Door"],["まど","Window"],["ポスト","Postbox, Mailbox"],["まど","Window"],["ビル","Building"],["ATM","Cash Machine, ATM"],["コンビニ","Convenience Store"],["こうえん","Park"],["けっさてん","Café, Coffee Shop"],["―や","-Shop, Store-"],["のりば","A Fixed Place To Catch Taxis, Trains, Etc."],["けん","Prefecture"],["うえ","On, Above, Over"],["した","Under, Below, Beneath"],["まえ","Front, Before"],["うしろ","Back, Behind"],["みぎ","Right[Side]"],["ひだり","Left[Side]"],["なか","In, Inside"],["そと","Outside"],["となり","Next Door"],["ちかく","Near, Vicinity"],["あいだ","Between, Among"],["―やー「など」","-,-, And So On"],["「どうも」すみません","Thank You"],["コーナー","Corner, Section"],["いちあんした","The Bottom"]]],[11,[["います「こどもが」","Have[A Child]"],["います「にほんに」","Stay, Be[In Japan]"],["かかります","Take, Cost(Referring To Time Or Money)"],["やすみます","Take A Day Off[Work]"],["ひとつ","One( Used When Counting Things)"],["ふたつ","Two"],["みっつ","Three"],["よっつ","Four"],["いつつ","Five"],["むっつ","Six"],["ななつ","Seven"],["やっつ","Eight"],["ここのつ","Nine"],["とお","Ten"],["いくつ","How Many"],["ひとり","One Person"],["ふたり","Two Person"],["―にん","-People"],["―だい","(Counter For Machines, Cars, Etc.)"],["―まい","(Counter For Paper, Stamp, Etc.)"],["―かい","-Times"],["りんご","Apple"],["みかん","Orange"],["サンドイッチ","Sandwich"],["カレー「ライス」","Curry[With Rice]"],["アイスクリーム","Ice Cream"],["きって","Postage Stamp"],["はがき","Post Card"],["ふうとう","Envelope"],["りょうしん","Parents"],["きょうだい","Brothers And Sister"],["あに","(My) Elder Brother"],["おにいさん","(Someone Else’s) Elder Brother"],["あね","(My) Elder Sister"],["おねえさん","(Someone Else’s) Elder Sister"],["あとうと","(My) Younger Brother"],["おとうとさん","(Someone Else’s) Younger Brother"],["いもうと","(My) Younger Sister"],["いもうとさん","(Someone Else’s) Younger Sister"],["がいこく","Foreign Country"],["りゅうがくせい","Foreign Student"],["クラス","Class"],["―じかん","-Hour(S)"],["―しゅうかん","-Week(S)"],["―かげつ","-Month(S)"],["―ねん","-Year(S)"],["～ぐらい","About-"],["どのぐらい","How Long"],["ぜんぶで","In Total"],["みんな","All, Everything, Everyone"],["～だけ","Only-"],["かしこまりました","Certainly, (Sir/Madam)"],["いい「お」てんきですね","Nice Weather, Isn’t It?"],["おでかけます","Are You Going Out?"],["ちょっと～まで","I’m Just Going To-"],["いってらっしゃい","See You Leter./ Solong(Lit. Go And Come Back)"],["いってきます","See You Later./So Long.(Lit. I’m Going And Coming Back)"],["ふなびん","Sea Mail"],["こうくうびん「エアメール」","Airmail"],["おねがいします","Please(Lit. Ask For A Favour)"]]],[12,[["かんたん「な」","Easy, Simple"],["ちかい","Near"],["とおい","Far"],["はやい","Fast, Early"],["おそい","Slow, Late"],["おおい","Many[People], Much"],["すくない","Few[People], A Little"],["あたたかい","Warm"],["すずしい","Cool"],["あまい","Sweet"],["からい","Hot(Taste), Spicy"],["おもい","Heavy"],["かるい","Light"],["いい「コーヒーが～」","Prefer"],["きせつ","Season"],["はる","Spring"],["なつ","Summer"],["あき","Autumn"],["ふゆ","Winter"],["てんき","Weather"],["あめ","Rain"],["ゆき","Snow"],["くもり","Cloudy"],["ホテル","Hotel"],["くうこう","Airport"],["うみ","Sea, Ocean"],["せかい","World"],["パーティー","Party"],["「お」まつり","Festival"],["すきやき","Sukiyaki(Beef And Vegetable Hot Pot)"],["さしみ","Sashimi(Sliced Raw Fish)"],["「お」すし","Sushi(Venegared Rice Topped With Raw Fish)"],["てんぷら","Tempura(Seafood And Vegetable Deep Fried In Batter)"],["ぶたにく","Pork"],["とりにく","Chicken"],["ぎゅうにく","Beef"],["レモン","Lemon"],["いけばな","Flower Arrangement"],["もみじ","Maple, Red Leave Of Autumn"],["どちら","Which One"],["どちらも","Both"],["いちばん","The Most"],["ずっと","By Far"],["はじめて","For The First Time"],["ただいま","I’m Home"],["おかいりなさい","Welcome Home"],["つかれました","I’m Tired"]]],[13,[["あそびます","Enjoy Oneself, Play"],["およぎます","Swim"],["むかえます","Go To Pick Up"],["つかれます","Get Tired(When Expressing The Condition Of Being Tired)"],["けっこんします","Marry, Get Married"],["かいものします","Do Shopping"],["しょくじします","Have A Meal"],["さんぽします","Take A Walk"],["たいへん「な」","Hard, Tough"],["ほしい","Want(Something)"],["ひろい","Wide, Spacious"],["せまい","Narrow, Small (Room Etc.)"],["プール","Swimming Pool"],["かわ","River"],["びじゅつ","Fine Arts"],["つり","Fishing"],["スキー","Skiing"],["しゅうまつ","Weekend"],["「お」しょうがつ","New Year’s Day"],["―ごろ","About-(Time)"],["なにか","Something"],["どこか","Somewhere, Some Place"],["のどがかわきました","Get Thirsty"],["おなかがすきます","Get Hungry"],["そうしましょう","Let’s Do That"],["ごちゅうもんは？","May I Take Your Order"],["ていしょく","Set Meal"],["ぎゅうどん","Bowl Of Rice Topped With Beef"],["「しょうしょう」おまちください","Please Wait[A Moment]"],["～でございます","(polite equivalent of です)"],["べつべつに","Separately"]]],[14,[["つけます","Turn On"],["けします","Turn Off"],["あけます","Open"],["しめます","Close, Shut"],["いそぎます","Hurry"],["まちます","Wait"],["もちます","Hold"],["とります","Take, Pass"],["てつだいます","Help(With A Task)"],["よびます","Call"],["はなします","Speak, Talk"],["つかいます","Use"],["とめます","Stop, Park"],["みせます","Show"],["おしえます","Tell[ An Address]"],["すわります","Sit Down"],["たちます","Stand Up"],["はいります","Enter"],["でます","Go Out"],["ふります","Raining"],["コピーします","Copy"],["でんき","Electricity"],["エアコン","Air Conditioner"],["パスポート","Passport"],["なまえ","Name"],["じゅうしょ","Address"],["ちず","Map"],["しお","Salt"],["さとう","Sugar"],["もんだい","Question, Problem, Trouble"],["こたえ","Answer"],["よみかた","How To Read"],["―かた","How To-"],["まっすぐ","Straight"],["ゆっくり","Slowly"],["すぐ","Immediately"],["また","Again"],["あとで","Later"],["もうすこし","A Little More"],["もう～","-More, Another-"],["さあ","Right"],["あれ？","Oh! Eh?"],["まがります","Get Turn"],["これでおねがいします","I’d Like To Pay With This"]]],[15,[["おきます","Put"],["つくります","Make, Produce"],["うります","Sell"],["しります","Get To Know"],["すみます","Be Going To Live"],["けんきゅうします","Do Research"],["しりょう","Materials, Data"],["カタログ","Catalogue"],["じこくひょう","Timetable"],["ふく","Clothes"],["せいひん","Products"],["ソフト","Software"],["でんしじしょ","Electronic Dictionary"],["けいざい","Economy"],["しやくしょ","Municipal Office"],["こうこう","Senior High School"],["はいしゃ","Dentist"],["どくしん","Single, Unmarried"],["すみません","I’m Sorry"],["みなさん","Ladies And Gentleman"],["おもいだします","Remember"],["いらっしゃいます","Be(Honorific Equivalent Of い ます)"]]],[16,[["のります","Ride, Get On[A Train]"],["おります","Get Off[A Train]"],["のりかえます","Change [Train Etc.]"],["あびます","Take [A Shower]"],["いれます","Put In, Insert"],["だします","Take Out, Hand In, Send"],["おろします","Withdraw"],["はいります","Enter [University]"],["でます","Graduate From [University]"],["おします","Push, Press"],["のみます","To Drink"],["はじめます","Start, Begin"],["けんがくします","Tour, Visit A Place To Study It"],["でんわします","Phone"],["わかい","Young"],["ながい","Long"],["みじかい","Short"],["あかるい","Bright, Light"],["くらい","Dark"],["からだ","Body, Health"],["あたま","Head, Brain"],["かみ","Hair"],["かお","Face"],["め","Eye"],["みみ","Ear"],["はな","Nose"],["くち","Mouth"],["は","Tooth"],["おなか","Stomach"],["あし","Leg, Foot"],["せ","Height"],["サービス","Service"],["ジョッギング","Jogging"],["シャワー","Shower"],["みどり","Green"],["「お」てら","Buddhist Temple"],["じんじゃ","Shinto Shrine"],["―ばん","Number-"],["どうやって","In What Way, How"],["どのー","Which-"],["どれ","Which One"],["すごいですね","That’s Amazing"],["「いいえ」まだまだです","[No], I Still Have A Long Way To Go"],["おひきだしですか","Are You Making A Withdrawal?"],["まず","First Of All"],["つぎに","Next, As A Next Step"],["キャッシュカード","Cash Dispensing Card"],["あんしょうばんごう","Pin"],["きんがく","Amount Of Money"],["かくにん","Confirmation"],["ボタン","Button"]]],[17,[["おぼえます","Memories"],["わすれます","Forget"],["なくします","Lose"],["はらいます","Pay"],["かえします","Give Back, Return"],["でかけます","Go Out"],["ぬぎます","Take Off (Clothes, Shoes, Etc.)"],["もっていきます","Take(Something)"],["もってきます","Bring(Something)"],["しんぱいします","Worry"],["ざんぎょうします","Work Overtime"],["しゅっちょします","Go On A Business Trip"],["のみます","Take[Medicine]"],["はいります","Take[Bath]"],["たいせつ「な」","Important, Precious"],["だいじょうぶ「な」","All Right"],["あぶない","Dangerous"],["きんえん","No Smoking"],["ほけんしょう","[Health] Insurance Card"],["ねつ","Temperature, Fever"],["びょうき","Illness, Disease"],["くすり","Medicine"],["「お」ふろ","Bath"],["うわぎ","Jacket, Outerwear"],["したぎ","Underwear"],["２，３にち","Two Or Three Days"],["２，３－","Two Or Three-"],["―までに","Before-, By- (Indicating Time Limit)"],["ですから","Therefore, So"],["どういたしましたか","What’s The Matter?"],["のど","Throat"],["「―が」いたいです","[I]Have A Pain[In Any]"],["かぜ","Cold, Flu"],["それから","And, Furthermore"],["おだいじに","Take Care Of Yourself"]]],[18,[["できます","Be Able To, Can"],["あらいます","Wash"],["ひきます","Play"],["うたいます","Sing"],["あつめます","Collect"],["すてます","Throw Away"],["かえます","Exchange, Change"],["うんてんします","Drive"],["よやくします","Reserve"],["ピアノ","Piano"],["－メートル","-Meter"],["げんきん","Cash"],["しゅみ","Hobby"],["にっき","Diary"],["おいのり","Prayer"],["かちょう","Section Head"],["ぶちょう","Department Head"],["しゃちょう","Company President"],["どうぶつ","Animal"],["うま","Horse"],["インターネット","The Internet"],["とくに","Especially"],["へえ","What! Really!"],["それはおもしろいですね","That’s Interesting, Isn’t It?"],["なかなか","Not Easily(Used With Negative)"],["ほんとうですか","Really?"],["ぜひ","By All Means, Really"]]],[19,[["のぼります","Climb, Go Up"],["とまります","Stay[At A Hotel]"],["そうじします","Clean [A Room]"],["せんたくします","Wash[Clothes]"],["なります","Become"],["ねむい","Sleepy"],["つよい","Strong"],["よわい","Weak"],["れんしゅう","Practice"],["ゴルフ","Golf"],["すもう","Sumo Wrestling"],["おちゃ","Tea Ceremony"],["ひ","Day, Date"],["ちょうし","Condition"],["いちど","Once"],["いちども","Not Once, Never"],["だんだん","Gradually"],["もうすぐ","Soon"],["おかげさまで","Thank You [ Used When Expressing Gratitude For Help Received]"],["でも","But"],["かんぱい","Cheers!"],["ダイエット","Diet"],["むり","Excessive, Impossible"],["からだにいい","Good For One’s Health"]]],[20,[["いります","Need, require"],["しらべます","Check, investigate"],["しゅうりします","Repair"],["ぼく","I"],["きみ","You"],["―くん","Mr."],["うん","Yes"],["ううん","No"],["ことば","Word, language"],["きもの","Kimono[traditional Japanese attire]"],["ビザ","Visa"],["はじめ","The beginning"],["おわり","The end of-, the end"],["こっち","This way, this place"],["そっち","That way,"],["あっち","That way, that place over there"],["どっち","Which one"],["みんなで","All Together"],["―けど","-but"],["おなかがいっぱいです","I’m full"],["よかったら","If you like"],["いろいろ","Various"]]],[21,[["おもいます","Think"],["いいます","Say"],["かちます","Win"],["まけます","Lose, Be Beaten"],["あります","[A Festival] Be Held, Take Place"],["やくにたちます","Be Useful"],["うごきます","Move, Work"],["やめます","Quit Or Retire From[A Company]"],["きをつけます","Pay Attention, Take Care"],["りゅうがくします","Study Abroad"],["むだ「な」","Wasteful"],["ふべん「な」","Inconvenient"],["すごい","Awful, Great"],["ほんとう","True"],["うそ","Lie"],["じどうしゃ","Car"],["こうつう","Transport, Traffic"],["ぶっか","[Commodity] Prices"],["ほうそう","Announcement"],["ニュース","News"],["アニメ","Anime"],["マンガ","Comic Book"],["デザイン","Design"],["ゆめ","Dream"],["てんさい","Genius"],["しあい","Game, Match"],["いけん","Opinion"],["はなし","Talk, Speech"],["ちきゅう","Earth"],["つき","Moon"],["さいきん","Recently"],["たぶん","Probably"],["きっと","Surely, Definitely"],["ほんとうに","Really"],["そんなに","Not So[Used With Negatives]"],["―について","About-, Concerning-"],["ひさしぶりですね","It’s Been A Long Time"],["―でものみませんか","What do you think about drinks?"],["もちろん","Of Course"],["もうかえらないとー","I have to go back"]]],[22,[["きます","Put On [A Shirt, Etc.]"],["はきます","Put On [Shoes, Trousers, Etc.]"],["かぶります","Put On [A Hat, Etc.]"],["かけます","Put On [Glasses]"],["します","Put On [Tie]"],["うまれます","Be Born"],["わたしたち","We"],["コート","Coat"],["セーター","Sweater"],["スーツ","Suit"],["ぼうし","Hat, Cap"],["めがね","Glasses"],["ケーキ","Cake"],["「お」べんとう","Box Lunch"],["ロボット","Robot"],["ユーモア","Humor"],["つごう","Convenience"],["よく","Often"],["えーと","Well, Let Me See"],["おめでとう「ございます」","Congratulations"],["おさがしですか","Are You Looking For?"],["では","Well Then"],["こちら","This Way"],["やちん","Rent"]]],[23,[["ききます","Ask[The Teacher]"],["まわします","Turn"],["ひきます","Pull"],["かえます","Change"],["さわります","Touch[A Door]"],["でます","[Change] Come Out"],["あるきます","Walk"],["わたります","Cross [ A Bridge]"],["まがります","Turn [To The Right]"],["さびしい","Lonely"],["「お」ゆ","Hot Water"],["おと","Sound"],["サイズ","Size"],["こしょう","Breakdown"],["みち","Road, Way"],["こうさてん","Crossroads"],["しんごう","Traffic Lights"],["かど","Corner"],["はし","Bridge"],["ちゅうしゃじょう","Car Park"],["たてもの","Building"],["なんかいも","Many Times"],["―め","The -th [Indicating Order]"]]],[24,[["くれます","Give[Fun]"],["なおします","Repair, Correct"],["つれていきます","Take [Someone]"],["つれてきます","Bring [Someone]"],["おくります","Escort [Someone]"],["しょうかいします","Introduce"],["あんないします","Show Around"],["せつめいします","Explain"],["おじいさん","Grand Father"],["おばあさん","Grand Mother"],["じゅうんび","Preparation"],["ひっこし","Moving Out"],["「お」かし","Sweets"],["ホームスティ","Homestay"],["ぜんぶ","All"],["じぶんで","By Oneself"]]],[25,[["かんがえます","Think, Consider"],["つきます","Arrive"],["とります","Grow Old"],["たります","Be Enough"],["いなか","Hometown"],["チャンス","Chance"],["おく","Hundred Million"],["もし「―たら」","If"],["いみ","Meaning"],["もしもし","Hello"],["てんきん","Transfer"],["こと","Thing, Matter"],["ひま","Free Time"],["「いろいろ」おせわになりました","Thank You For Everything You’ve Done For Me"],["がんばります","Do One’s Best"],["どうぞおげんきで","Please Take Care Of Yourself"]]]];
+const KANJI = ("一|いち/ひと|one\n二|に/ふた|two\n三|さん/み|three\n四|よん/し/よ|four\n五|ご/いつ|five\n六|ろく/む|six\n七|なな/しち|seven\n八|はち/や|eight\n九|きゅう/ここの|nine\n十|じゅう/とお|ten\n百|ひゃく|hundred\n千|せん|thousand\n万|まん|ten thousand\n今|いま/こん|now\n日|にち/ひ/か|day, sun\n口|くち|mouth\n学|がく/まな|study\n校|こう|school\n行|い/こう|go\n本|ほん/もと|book, origin\n語|ご|language\n時|じ/とき|time\n間|かん/あいだ|between, interval\n天|てん|heaven, sky\n気|き|spirit, mood\n雨|あめ|rain\n先|せん/さき|previous, ahead\n生|せい/しょう/い/う|life, birth\n言|げん/い/こと|say, word\n月|げつ/がつ/つき|moon, month\n火|か/ひ|fire\n水|すい/みず|water\n木|もく/き|tree\n金|きん/かね|gold, money\n土|ど/つち|soil\n会|かい/あ|meet\n社|しゃ|company, shrine\n読|どく/よ|read\n目|もく/め|eye\n見|けん/み|see\n何|なに/なん|what\n高|こう/たか|tall, expensive\n休|きゅう/やす|rest\n名|めい/な|name\n前|ぜん/まえ|before, front\n後|ご/あと/うしろ|after, behind\n友|ゆう/とも|friend\n午|ご|noon\n半|はん|half\n外|がい/そと|outside\n中|ちゅう/なか|middle, inside\n国|こく/くに|country\n年|ねん/とし|year\n店|てん/みせ|shop\n新|しん/あたら|new\n古|こ/ふる|old\n耳|じ/みみ|ear\n聞|ぶん/き|hear, ask\n入|にゅう/い/はい|enter\n人|じん/にん/ひと|person\n買|ばい/か|buy\n電|でん|electricity\n車|しゃ/くるま|car, vehicle\n食|しょく/た|eat\n小|しょう/ちい|small\n少|しょう/すく/すこ|few, a little\n出|しゅつ/で/だ|go out, take out\n多|た/おお|many\n大|だい/おお|big\n父|ふ/ちち|father\n母|ぼ/はは|mother\n書|しょ/か|write\n週|しゅう|week\n北|ほく/きた|north\n南|なん/みなみ|south\n西|せい/さい/にし|west\n東|とう/ひがし|east\n上|じょう/うえ/あ|up, above\n下|か/げ/した/お|down, below\n左|さ/ひだり|left\n右|う/ゆう/みぎ|right\n白|はく/しろ|white\n花|か/はな|flower\n駅|えき|station\n歩|ほ/ある|walk\n番|ばん|number, turn\n魚|ぎょ/さかな|fish\n道|どう/みち|road, way\n山|さん/やま|mountain\n川|せん/かわ|river\n来|らい/く/き|come\n男|だん/おとこ|man\n女|じょ/おんな|woman\n子|し/こ|child\n長|ちょう/なが|long, chief\n立|りつ/た|stand\n手|しゅ/て|hand\n足|そく/あし|foot, leg\n毎|まい|every\n飲|いん/の|drink\n空|くう/そら/あ|sky, empty\n分|ぶん/ふん/わ|minute, understand\n円|えん/まる|yen, round\n安|あん/やす|cheap, safe\n話|わ/はな|speech, talk").split("\n").map(s=>s.split("|"));
+function route(to){
+  const m = /^vocab(\d+)$/.exec(to);
+  if(m) return renderVocabLesson(Number(m[1]));
+  return ({n5:renderN5,mock:renderMock,kanjimock:renderKanjiMock,grammar:renderGrammar,lesson1:()=>renderLesson(1),vocab:renderVocab,kanji:renderKanjiLearn}[to]||renderHome)();
+}
+function renderVocab(){
+  page(crumbs([["Levels","home"],["N5","n5"],["Learn vocabulary",""]]),"N5 vocabulary","Words from lessons 1 to 25, in the order of your book.",
+    VOCAB.map(([n,w])=>lv("Lesson "+n, w.length+" words", String(n), "vocab"+n, true)).join(""));
+}
+function renderVocabLesson(n){
+  const L = VOCAB.find(x=>x[0]===n); if(!L) return renderVocab();
+  const rows = ws => ws.map(w=>`<div class="vrow" data-action="vrow" role="button" tabindex="0"><span class="j" lang="ja">${spk(w[0])} ${esc(w[0])}</span><span class="e">${esc(w[1])}</span></div>`).join("");
+  app.innerHTML = crumbs([["Levels","home"],["N5","n5"],["Learn vocabulary","vocab"],["Lesson "+n,""]]) + `<section style="margin-top:18px"><h2 style="font-size:32px">Lesson ${n} vocabulary</h2><p class="sub">${L[1].length} words. Hide the English and tap a row to check yourself.</p>
+    <div class="vtools"><input id="vq" type="search" placeholder="Search this lesson" aria-label="Search this lesson"><button class="btn btn-ghost btn-sm" data-action="vtoggle">Hide English</button></div>
+    <div class="card" id="vlist">${rows(L[1])}</div>
+    <div style="display:flex;gap:10px;margin:22px 0 40px;flex-wrap:wrap">${n>1?`<button class="btn btn-ghost" data-action="go" data-to="vocab${n-1}">Previous lesson</button>`:""}${n<25?`<button class="btn btn-primary" data-action="go" data-to="vocab${n+1}">Next lesson</button>`:""}</div></section>`;
+  $("#vq").addEventListener("input", e=>{ const q=e.target.value.trim().toLowerCase(); $("#vlist").innerHTML = rows(L[1].filter(w=>!q||w[0].toLowerCase().includes(q)||w[1].toLowerCase().includes(q))); });
+  window.scrollTo(0,0);
+}
+function renderKanjiLearn(){
+  app.innerHTML = crumbs([["Levels","home"],["N5","n5"],["Learn kanji",""]]) + `<section style="margin-top:18px"><h2 style="font-size:32px">N5 kanji</h2><p class="sub">${KANJI.length} kanji. Tap one to see its readings and the words you meet it in.</p>
+    <div class="kgrid">${KANJI.map(k=>`<button class="kt" lang="ja" data-action="kanji" data-k="${k[0]}" aria-label="Kanji ${k[0]}, ${esc(k[2])}">${k[0]}</button>`).join("")}</div><div style="height:40px"></div></section>`;
+  window.scrollTo(0,0);
+}
+function openKanji(c){
+  const k = KANJI.find(x=>x[0]===c); if(!k) return;
+  const ws = ALL.filter(w=>w[0].includes(c));
+  $("#kBody").innerHTML = `<div class="kbig" lang="ja">${k[0]}</div><div class="kread" lang="ja">${spk(k[0])} ${esc(k[1].replace(/\//g," ・ "))}</div><div class="kmean">${esc(k[2])} · ${esc(BNK[KANJI.indexOf(k)]||"")}</div>
+    ${ws.length?ws.map(w=>`<div class="kw"><b lang="ja">${spk(w[1])} ${esc(w[0])}</b><span lang="ja">${esc(w[1])}</span><span>${esc(w[2])}${BN.get(w[0])?" · "+esc(BN.get(w[0])):""}</span></div>`).join(""):'<div class="empty">No example words yet.</div>'}
+    <div class="row"><button class="btn btn-primary" data-action="closeKanji">Close</button></div>`;
+  $("#dlgKanji").showModal();
+}
+
+/* ---------- kanji mock (sets) ---------- */
+function wordOfDay(){ const d = Math.floor(Date.now()/86400000); return ALL[d % ALL.length]; }
+function lenClass(w){ return w.length>=7 ? "xlong" : w.length>=5 ? "long" : ""; }
+
+function renderKanjiMock(){
+  stopTimer(); window.onbeforeunload = null;
+  const h = store.history;
+  const taken = h.length;
+  const best = taken ? Math.max(...h.map(x=>x.score)) : null;
+  const avg = taken ? Math.round(h.reduce((a,x)=>a+x.score,0)/taken*10)/10 : null;
+  const tried = new Set(h.map(x=>x.set)).size;
+  const ns = nextSet();
+  const w = wordOfDay();
+  const greet = store.name ? `こんにちは、${esc(store.name)}` : "Welcome to your kanji dojo";
+  const tiles = Array.from({length:20},(_,i)=>{
+    const n=i+1, b=bestFor(n);
+    const cls = b!==null && b>=45 ? "tile gold" : "tile";
+    return `<button class="${cls}" data-action="start" data-set="${n}" aria-label="Set ${n}${b!==null?", best score "+b+" out of 50":", not taken yet"}">
+      ${b!==null && b>=45 ? '<span class="done">mastered</span>' : ''}
+      <div class="no">${n}</div>
+      <div class="st">${b!==null ? b+" / 50" : "Not taken"}</div>
+      <div class="bar"><i style="width:${b!==null? b*2 : 0}%"></i></div></button>`;
+  }).join("");
+  const recent = h.slice(0,6).map((r,i)=>`<li><span class="sc">${r.score}<small style="font-size:14px;color:var(--muted);font-family:var(--sans)"> /50</small></span>
+      <span><b>Set ${r.set}</b><div class="dt">${fmtDate(r.date)} · ${fmtTime(r.time)}</div></span>
+      <button class="btn btn-ghost btn-sm open" data-action="openResult" data-i="${i}">Review</button></li>`).join("");
+  app.innerHTML = crumbs([["Levels","home"],["N5","n5"],["Mock tests","mock"],["Kanji vocabulary test",""]]) + `
+  <section class="hero" style="margin-top:14px">
+    <div style="position:relative;z-index:1">
+      <h1>${greet}</h1>
+      <p>Twenty sets of N5 words from your school notebook. Fifty questions, thirty minutes, and your score the moment you submit.</p>
+      <div class="actions">
+        <button class="btn btn-gold" data-action="start" data-set="${ns}">${taken?`Take set ${ns}`:"Start set 1"}</button>
+        <span class="meta">${taken?`${taken} test${taken===1?"":"s"} taken so far`:"Your first test takes about half an hour"}</span>
+      </div>
+    </div>
+    <div class="wod">
+      <small>Word of the day</small>
+      <div class="k">${esc(w[0])}</div>
+      <div class="r" id="wodR"></div><div class="m" id="wodM"></div>
+      <button data-action="wod" id="wodB">Show reading</button>
+    </div>
+  </section>
+  <div class="stats">
+    <div class="card stat"><div class="n">${taken}</div><div class="l">Tests taken</div></div>
+    <div class="card stat"><div class="n">${best===null?"–":best}<span style="font-size:16px;color:var(--muted)">${best===null?"":" /50"}</span></div><div class="l">Best score</div></div>
+    <div class="card stat"><div class="n">${avg===null?"–":avg}</div><div class="l">Average score</div></div>
+    <div class="card stat"><div class="n">${tried}<span style="font-size:16px;color:var(--muted)"> /20</span></div><div class="l">Sets tried</div></div>
+  </div>
+  <section>
+    <h2>Choose a set</h2><p class="sub">Each set has 50 different words. Sets that sit next to each other never share a word.</p>
+    <div class="sets">${tiles}</div>
+  </section>
+  <section class="two">
+    <div class="card panel"><h2>Your last ten scores</h2><p class="sub">Out of 50</p>${chart()}</div>
+    <div class="card panel"><h2>Recent tests</h2><p class="sub">Open one to see every answer</p>${recent?`<ul class="list">${recent}</ul>`:'<div class="empty">No tests yet. Pick a set above to take your first one.</div>'}</div>
+  </section>
+  <div class="foot"><span>Nothing leaves your device. No accounts, no tracking, no network requests. Scores live in this browser only.</span><button class="link" data-action="clear">Erase my data</button></div>`;
+  window.scrollTo(0,0);
+}
+function chart(){
+  const d = store.history.slice(0,10).reverse();
+  if(!d.length) return '<div class="empty">Your progress chart appears after your first test.</div>';
+  const W=420,H=170,pad=26,bw=Math.min(32,(W-pad*2)/d.length-8);
+  const step=(W-pad*2)/d.length;
+  let g='';
+  [0,25,50].forEach(v=>{ const y=H-pad-(v/50)*(H-pad*2); g+=`<line x1="${pad}" x2="${W-6}" y1="${y}" y2="${y}" stroke="var(--line)" stroke-width="1"/><text x="${pad-6}" y="${y+4}" text-anchor="end" font-size="11" fill="var(--muted)">${v}</text>`; });
+  d.forEach((r,i)=>{ const x=pad+step*i+(step-bw)/2, hh=(r.score/50)*(H-pad*2), y=H-pad-hh;
+    g+=`<rect x="${x}" y="${y}" width="${bw}" height="${hh}" rx="6" fill="${r.score>=45?'var(--gold)':'var(--indigo)'}"/><text x="${x+bw/2}" y="${y-5}" text-anchor="middle" font-size="12" fill="var(--ink)" font-weight="600">${r.score}</text><text x="${x+bw/2}" y="${H-8}" text-anchor="middle" font-size="11" fill="var(--muted)">S${r.set}</text>`; });
+  return `<div style="overflow-x:auto"><svg viewBox="0 0 ${W} ${H}" width="100%" style="min-width:300px" role="img" aria-label="Bar chart of your last ${d.length} scores">${g}</svg></div>`;
+}
+
+/* ---------- start dialog ---------- */
+function openStart(n){
+  $("#inName").value = store.name || "";
+  $("#inSet").innerHTML = Array.from({length:20},(_,i)=>`<option value="${i+1}">Set ${i+1}${bestFor(i+1)!==null?" (best "+bestFor(i+1)+"/50)":""}</option>`).join("");
+  $("#inSet").value = String(n);
+  $("#dlgStart").showModal();
+  setTimeout(()=>{ (store.name ? $("#goBtn") : $("#inName")).focus(); }, 30);
+}
+
+/* ---------- test ---------- */
+let T = null, tick = null;
+function stopTimer(){ if(tick){ clearInterval(tick); tick=null; } }
+function buildQuestions(n){
+  const s = SETS[n-1];
+  return s.a.map(w=>({t:"A",k:w[0],h:w[1],m:w[2]})).concat(s.b.map(w=>({t:"B",k:w[0],h:w[1],m:w[2]})));
+}
+function startTest(n){
+  T = { set:n, qs:buildQuestions(n), start:Date.now(), done:false };
+  const A = T.qs.slice(0,25), B = T.qs.slice(25);
+  const card = (q,i) => q.t==="A"
+    ? `<div class="q"><div class="qn">Question ${i+1}</div><div class="kanji ${lenClass(q.k)}" lang="ja">${esc(q.k)}</div>
+        <input id="q${i}" data-i="${i}" lang="ja" type="text" placeholder="ひらがな" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Question ${i+1}: hiragana for ${esc(q.k)}"></div>`
+    : `<div class="q"><div class="qn">Question ${i+1}</div><div class="en">${esc(q.m)}</div>
+        <input id="q${i}" data-i="${i}" lang="ja" type="text" placeholder="かんじ" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Question ${i+1}: kanji for ${esc(q.m)}"></div>`;
+  app.innerHTML = `
+  <div class="tbar" role="region" aria-label="Test status">
+    <div><div class="timer" id="timer" role="timer">30:00</div></div>
+    <div class="prog"><div class="t"><span id="ans">0</span> of 50 answered · <span class="setname">Set ${n}</span></div><div class="b"><i id="pb"></i></div></div>
+    <button class="btn btn-primary btn-sm" data-action="trySubmit">Submit</button>
+  </div>
+  <section class="part" style="margin-top:26px"><h2>Part A <small>Type the hiragana for each kanji word (25 marks)</small></h2>
+    <div class="qgrid">${A.map((q,i)=>card(q,i)).join("")}</div></section>
+  <section class="part"><h2>Part B <small>Type the Japanese word in kanji (25 marks)</small></h2>
+    <div class="qgrid">${B.map((q,i)=>card(q,i+25)).join("")}</div></section>
+  <div class="submit-row"><button class="btn btn-primary" data-action="trySubmit">Submit answers</button></div>`;
+  window.scrollTo(0,0);
+  window.onbeforeunload = e => { e.preventDefault(); e.returnValue = ""; return ""; };
+  $$(".q input").forEach(inp => {
+    inp.addEventListener("input", countAnswered);
+    inp.addEventListener("keydown", e => { if(e.key==="Enter" && !e.isComposing){ e.preventDefault(); const nx = $("#q"+(Number(inp.dataset.i)+1)); if(nx) nx.focus(); else inp.blur(); } });
+  });
+  stopTimer(); tick = setInterval(updateTimer, 250); updateTimer();
+  setTimeout(()=>{ const f=$("#q0"); if(f) f.focus({preventScroll:true}); }, 50);
+}
+function countAnswered(){
+  const n = $$(".q input").filter(i=>i.value.trim()).length;
+  const a=$("#ans"), p=$("#pb"); if(a) a.textContent=n; if(p) p.style.width=(n*2)+"%";
+}
+function updateTimer(){
+  if(!T || T.done) return;
+  const left = TOTAL - (Date.now()-T.start)/1000;
+  const el = $("#timer"); if(!el) return;
+  el.textContent = fmtTime(left);
+  el.classList.toggle("warn", left<=300);
+  el.classList.toggle("pulse", left<=60);
+  if(left<=0) finish(true);
+}
+function trySubmit(){
+  const un = $$(".q input").filter(i=>!i.value.trim()).length;
+  $("#subText").textContent = un ? `${un} question${un===1?" is":"s are"} still blank. Blank answers score zero.` : "All 50 questions are answered.";
+  $("#dlgSubmit").showModal();
+}
+function isCorrect(q, val){
+  const v = norm(val); if(!v) return false;
+  if(q.t==="A"){ return [q.h].concat(ALT_READ[q.k]||[]).some(x=>norm(x)===v); }
+  return [q.k].concat(ALT_KANJI[q.k]||[]).some(x=>norm(x)===v);
+}
+function finish(auto){
+  if(!T || T.done) return;
+  T.done = true; stopTimer(); window.onbeforeunload = null;
+  const used = Math.min(TOTAL, Math.round((Date.now()-T.start)/1000));
+  const answers = T.qs.map((q,i)=>{ const el=$("#q"+i); const val = el ? el.value.trim() : ""; return { t:q.t, k:q.k, h:q.h, m:q.m, u:val, ok:isCorrect(q,val) }; });
+  const a = answers.slice(0,25).filter(x=>x.ok).length, b = answers.slice(25).filter(x=>x.ok).length;
+  const name = store.name || "Student";
+  const rec = { id:Date.now(), set:T.set, name, score:a+b, a, b, time:used, date:new Date().toISOString(), auto:!!auto, answers };
+  store.history.unshift(rec); store.history = store.history.slice(0,60); save();
+  T = null;
+  $$("dialog[open]").forEach(d=>d.close());
+  renderResult(rec);
+}
+
+/* ---------- result ---------- */
+function verdict(s){ const p=s/50; return p>=.9 ? "すばらしい！ Outstanding" : p>=.7 ? "よくできました Well done" : p>=.5 ? "もう少し Nearly there" : "がんばって Keep practising"; }
+function renderResult(rec, filter="all"){
+  stopTimer();
+  const C = 2*Math.PI*88, off = C*(1 - rec.score/50);
+  const rows = rec.answers.map((r,i)=>({r,i})).filter(x=> filter==="all" || (filter==="wrong" ? !x.r.ok : x.r.ok)).map(({r,i})=>`
+    <div class="rrow ${r.ok?"ok":"no"}"><span class="n">${i+1}</span>
+      <span class="p" lang="ja">${esc(r.t==="A"?r.k:r.m)}<small>${r.t==="A"?"Part A · read in hiragana":"Part B · write in kanji"}</small></span>
+      <span class="a">${r.ok?`<b lang="ja">${esc(r.u)}</b>`:`<span class="you" lang="ja">${esc(r.u||"(blank)")}</span><b lang="ja">${esc(r.t==="A"?r.h:r.k)}</b>${r.t==="B"?`<span style="color:var(--muted)" lang="ja">${esc(r.h)}</span>`:`<span style="color:var(--muted)">${esc(r.m)}</span>`}`}</span>
+      <span class="mk" aria-label="${r.ok?"correct":"wrong"}">${r.ok?"✓":"✗"}</span></div>`).join("");
+  app.innerHTML = `
+  <div class="res">
+    <div class="scorecard" id="scorecard">
+      <div class="who">${esc(rec.name)}</div><div class="when">Set ${rec.set} · ${fmtDate(rec.date)}</div>
+      <div class="ring"><svg width="210" height="210" viewBox="0 0 210 210"><circle cx="105" cy="105" r="88" fill="none" stroke="rgba(255,255,255,.16)" stroke-width="14"/><circle cx="105" cy="105" r="88" fill="none" stroke="#e3b95c" stroke-width="14" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${off}"/></svg>
+        <div class="num"><b>${rec.score}</b><span>out of 50</span></div></div>
+      <div class="verdict">${verdict(rec.score)}</div>
+      <div class="when">${Math.round(rec.score*2)}% · finished in ${fmtTime(rec.time)}${rec.auto?" (time ran out)":""}</div>
+      <div class="parts"><div><b>${rec.a}/25</b><span>Part A hiragana</span></div><div><b>${rec.b}/25</b><span>Part B kanji</span></div></div>
+      <div class="rbtns no-print">
+        <button class="btn btn-gold btn-sm" data-action="png" data-id="${rec.id}">Download score card</button>
+        <button class="btn btn-sm" style="background:rgba(255,255,255,.14);color:#fff" data-action="print">Print or save PDF</button>
+      </div>
+      <div class="rbtns no-print">
+        <button class="btn btn-sm" style="background:rgba(255,255,255,.14);color:#fff" data-action="start" data-set="${rec.set}">Try set ${rec.set} again</button>
+        <button class="btn btn-sm" style="background:rgba(255,255,255,.14);color:#fff" data-action="go" data-to="kanjimock">Back to sets</button>
+      </div>
+    </div>
+    <div class="card review">
+      <h2 style="margin-top:20px">Your answers</h2><p class="sub">${50-rec.score===0?"Every answer was correct.":`Fix these ${50-rec.score} and your next try will score higher.`}</p>
+      <div class="filters no-print">
+        <button class="pill" data-action="filter" data-f="all" data-id="${rec.id}" aria-pressed="${filter==="all"}">All 50</button>
+        <button class="pill" data-action="filter" data-f="wrong" data-id="${rec.id}" aria-pressed="${filter==="wrong"}">Wrong (${50-rec.score})</button>
+        <button class="pill" data-action="filter" data-f="right" data-id="${rec.id}" aria-pressed="${filter==="right"}">Correct (${rec.score})</button>
+      </div>
+      ${rows || '<div class="empty">Nothing to show here.</div>'}
+    </div>
+  </div>
+  <div style="height:40px"></div>`;
+  window.scrollTo(0,0);
+}
+
+/* ---------- score card image ---------- */
+function drawCard(rec){
+  const W=1080,H=1350,c=document.createElement("canvas"); c.width=W; c.height=H; const x=c.getContext("2d");
+  const SANS='"Hiragino Sans","Yu Gothic","Noto Sans CJK JP","Noto Sans JP",Meiryo,"IPAGothic","Segoe UI",system-ui,sans-serif';
+  const SERIF='"Hiragino Mincho ProN","Yu Mincho","Noto Serif CJK JP","Noto Serif JP","IPAMincho",Georgia,serif';
+  const g=x.createLinearGradient(0,0,W,H); g.addColorStop(0,"#0e1840"); g.addColorStop(.6,"#1d3478"); g.addColorStop(1,"#2c4aa0"); x.fillStyle=g; x.fillRect(0,0,W,H);
+  x.save(); x.globalAlpha=.07; x.fillStyle="#fff"; x.font=`700 520px ${SERIF}`; x.textAlign="center"; x.fillText("日",W-190,520); x.restore();
+  x.fillStyle="#14214f"; roundRect(x,70,70,84,84,18); x.fill(); x.strokeStyle="rgba(227,185,92,.6)"; x.lineWidth=3; roundRect(x,74,74,76,76,15); x.stroke();
+  x.fillStyle="#e3b95c"; x.font=`700 52px ${SERIF}`; x.textAlign="center"; x.fillText("日",112,130);
+  x.textAlign="left"; x.fillStyle="#fff"; x.font=`700 40px ${SERIF}`; x.fillText("Nihongo Mahir Sensei",174,112);
+  x.fillStyle="#b9c6ee"; x.font=`26px ${SANS}`; x.fillText("JLPT N5 kanji and vocabulary",174,148);
+  x.textAlign="center"; x.fillStyle="#fff"; x.font=`700 76px ${SERIF}`; fitText(x,rec.name,W/2,330,W-160,76,SERIF);
+  x.fillStyle="#b9c6ee"; x.font=`30px ${SANS}`; x.fillText(`Set ${rec.set}  ·  ${fmtDate(rec.date)}`,W/2,388);
+  const cx=W/2,cy=700,r=210,C=2*Math.PI*r;
+  x.lineWidth=36; x.lineCap="round"; x.strokeStyle="rgba(255,255,255,.16)"; x.beginPath(); x.arc(cx,cy,r,0,Math.PI*2); x.stroke();
+  x.strokeStyle="#e3b95c"; x.beginPath(); x.arc(cx,cy,r,-Math.PI/2,-Math.PI/2+Math.PI*2*(rec.score/50)); x.stroke();
+  x.fillStyle="#fff"; x.font=`700 190px ${SERIF}`; x.fillText(String(rec.score),cx,cy+50);
+  x.fillStyle="#b9c6ee"; x.font=`34px ${SANS}`; x.fillText("out of 50",cx,cy+108);
+  x.fillStyle="#f0d68f"; x.font=`700 48px ${SERIF}`; x.fillText(verdict(rec.score),cx,1010);
+  x.fillStyle="#b9c6ee"; x.font=`30px ${SANS}`; x.fillText(`${rec.score*2}%  ·  finished in ${fmtTime(rec.time)}`,cx,1062);
+  [[`${rec.a}/25`,"Part A hiragana",260],[`${rec.b}/25`,"Part B kanji",W-260-380]].forEach(([v,l,px])=>{
+    x.fillStyle="rgba(255,255,255,.1)"; roundRect(x,px,1110,380,130,24); x.fill();
+    x.fillStyle="#fff"; x.font=`700 52px ${SERIF}`; x.fillText(v,px+190,1176); x.fillStyle="#b9c6ee"; x.font=`24px ${SANS}`; x.fillText(l,px+190,1214);
+  });
+  return c;
+}
+function roundRect(x,a,b,w,h,r){ x.beginPath(); x.moveTo(a+r,b); x.arcTo(a+w,b,a+w,b+h,r); x.arcTo(a+w,b+h,a,b+h,r); x.arcTo(a,b+h,a,b,r); x.arcTo(a,b,a+w,b,r); x.closePath(); }
+function fitText(x,t,px,py,maxW,size,fam){ let s=size; x.font=`700 ${s}px ${fam}`; while(x.measureText(t).width>maxW && s>28){ s-=2; x.font=`700 ${s}px ${fam}`; } x.fillText(t,px,py); }
+function downloadPng(id){
+  const rec = store.history.find(h=>h.id===Number(id)); if(!rec) return;
+  const c = drawCard(rec);
+  c.toBlob(b=>{ if(!b){ toast("Could not make the image. Try a screenshot instead."); return; }
+    const u=URL.createObjectURL(b), a=document.createElement("a"); a.href=u; a.download=`${rec.name.replace(/[^\w\u3040-\u30ff\u4e00-\u9fff-]+/g,"_")}-set${rec.set}-${rec.score}of50.png`;
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(u),4000); toast("Score card saved"); }, "image/png");
+}
+
+/* ---------- events ---------- */
+document.addEventListener("click", e => {
+  const el = e.target.closest("[data-action]"); if(!el) return;
+  const a = el.dataset.action;
+  if(a==="home"||a==="go"){ if(T && !T.done){ if(!confirm("Leave the test? Your answers will be lost.")) return; T=null; } stopTimer(); window.onbeforeunload=null; route(a==="go"?el.dataset.to:""); }
+  else if(a==="theme") toggleTheme();
+  else if(a==="editName"){ $("#inName2").value = store.name||""; $("#dlgName").showModal(); }
+  else if(a==="closeName") $("#dlgName").close();
+  else if(a==="closeStart") $("#dlgStart").close();
+  else if(a==="start"){ $$("dialog[open]").forEach(d=>d.close()); openStart(Number(el.dataset.set)||1); }
+  else if(a==="wod"){ const w=wordOfDay(); $("#wodR").textContent=w[1]; $("#wodM").textContent=w[2]; el.style.display="none"; }
+  else if(a==="trySubmit") trySubmit();
+  else if(a==="kanji") openKanji(el.dataset.k);
+  else if(a==="speak") speak(el.dataset.t);
+  else if(a==="closeKanji") $("#dlgKanji").close();
+  else if(a==="vtoggle"){ const l=$("#vlist"); l.classList.toggle("hide"); el.textContent = l.classList.contains("hide") ? "Show English" : "Hide English"; }
+  else if(a==="vrow") el.classList.toggle("shown");
+  else if(a==="closeSubmit") $("#dlgSubmit").close();
+  else if(a==="confirmSubmit") finish(false);
+  else if(a==="openResult"){ const r=store.history[Number(el.dataset.i)]; if(r) renderResult(r); }
+  else if(a==="filter"){ const r=store.history.find(h=>h.id===Number(el.dataset.id)); if(r){ renderResult(r, el.dataset.f); window.scrollTo(0, $(".review").offsetTop-90); } }
+  else if(a==="png") downloadPng(el.dataset.id);
+  else if(a==="print") window.print();
+  else if(a==="clear") $("#dlgClear").showModal();
+  else if(a==="closeClear") $("#dlgClear").close();
+  else if(a==="confirmClear"){ try{ localStorage.removeItem(KEY); }catch(err){} store={name:"",theme:"",history:[]}; $("#dlgClear").close(); applyTheme(); updateName(); renderHome(); toast("Data erased"); }
+});
+$("#startForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const name = $("#inName").value.trim();
+  if(!name){ $("#inName").focus(); $("#inName").setAttribute("aria-invalid","true"); toast("Please enter your name first"); return; }
+  store.name = name; save(); updateName();
+  const n = Number($("#inSet").value)||1;
+  $("#dlgStart").close(); startTest(n);
+});
+$("#nameForm").addEventListener("submit", e => {
+  e.preventDefault(); const n=$("#inName2").value.trim(); if(!n) return;
+  store.name=n; save(); updateName(); $("#dlgName").close(); if(!T && !$("#scorecard")) renderHome();
+});
+$$("dialog").forEach(d => d.addEventListener("click", e => { if(e.target===d) d.close(); }));
+
+applyTheme(); updateName(); renderHome();
+})();
+</script>
+</body>
+</html>
