@@ -242,6 +242,13 @@ dialog::backdrop{background:rgba(8,13,35,.6);backdrop-filter:blur(3px)}
 @keyframes fall{0%{transform:translate(0,0) rotate(0)}100%{transform:translate(70px,420px) rotate(380deg)}}
 .hero>div:not(.deco){position:relative;z-index:1}
 .bn{display:block;color:var(--ink);font-size:18px;font-weight:500;margin-top:2px}
+.mstem{font-size:22px;line-height:1.7;margin:8px 0 12px}
+.opts{display:grid;gap:8px}
+.opt{display:flex;gap:10px;align-items:center;padding:10px 14px;border:1px solid var(--line);border-radius:12px;background:var(--bg);cursor:pointer;font-size:19px}
+.opt:hover{border-color:var(--indigo)}
+.opt:has(input:checked){border-color:var(--indigo);background:color-mix(in srgb,var(--indigo) 12%,var(--bg))}
+.opt input{width:18px;height:18px;flex:none}
+.mgrid{grid-template-columns:repeat(auto-fill,minmax(340px,1fr))}
 @media (max-width:860px){
   .hero{grid-template-columns:1fr;padding:30px 24px}
   .wod{justify-self:stretch;max-width:none}
@@ -398,9 +405,64 @@ function renderN5(){
   page(crumbs([["Levels","home"],["N5",""]]), "N5", "Learn first, then test yourself.",
     lv("Learn vocabulary","25 lessons, about 970 words","語彙","vocab",true)+lv("Learn grammar","Lessons 1 to 9 are ready","文法","grammar",true)+lv("Learn kanji","105 kanji with readings and words","漢字","kanji",true)+lv("Mock tests","Vocabulary, kanji, grammar and the full test","模試","mock",true));
 }
+let M = null;
+const MOCK = {V:[
+ {h:"もんだい1　【　】の ことばは ひらがなで どう かきますか。", q:[
+  ["【先生】は きょう やすみです。","せんせい","せんぜい","しんせい","しんぜい"],["【毎日】 にほんごを べんきょうします。","まいにち","まいにつ","めいにち","めいにつ"],["この 【店】は やすいです。","みせ","てん","いえ","まち"],["【右】に まがって ください。","みぎ","ひだり","うえ","した"],["わたしは 【友だち】と いきます。","ともだち","ともたち","とむだち","ともらち"],["【九月】に にほんへ いきます。","くがつ","きゅうがつ","くつき","きゅうげつ"],["【電車】で かいしゃへ いきます。","でんしゃ","でんじゃ","てんしゃ","てんじゃ"],["これは 【三百円】です。","さんびゃくえん","さんひゃくえん","さんぴゃくえん","さんびゃくいん"]]},
+ {h:"もんだい2　【　】の ことばは どう かきますか。", q:[
+  ["こうえんを 【あるきます】。","歩きます","行きます","立ちます","休みます"],["【やま】に のぼります。","山","川","水","木"],["【ふるい】 くるまです。","古い","新しい","高い","安い"],["【さかな】が すきです。","魚","花","耳","口"],["【ひがし】の ほうへ いきます。","東","西","南","北"],["【みみ】が いたいです。","耳","目","手","足"]]},
+ {h:"もんだい3　（　）に なにを いれますか。", q:[
+  ["パンを （　）。","たべます","のみます","よみます","かきます"],["あした ともだちに （　）。","あいます","ききます","のります","かいます"],["この ほんは とても （　）です。","おもしろい","おいしい","あつい","ねむい"],["びょういんで くすりを （　）。","もらいました","あげました","うりました","おしえました"],["（　）で ほんを かります。","としょかん","えき","ぎんこう","ゆうびんきょく"],["かぜを ひきました。（　）が あります。","ねつ","はな","ゆき","かさ"],["もう おそいですから、うちへ （　）。","かえります","はいります","のります","つきます"],["きょうは さむいですから、（　）を きます。","うわぎ","くつ","ぼうし","めがね"],["すみません、えんぴつを （　）ください。","かして","おして","あけて","けして"],["わたしは まいあさ しんぶんを （　）。","よみます","のみます","ひきます","あびます"]]},
+ {h:"もんだい4　おなじ いみの ぶんを えらんで ください。", q:[
+  ["この へやは しずかです。＝ この へやは （　）。","おとが すくないです","ひろいです","あかるいです","あついです"],["この くつは たかいです。＝ この くつは （　）ありません。","やすく","ふるく","あたらしく","おおきく"],["きのうは ひまでした。＝ きのうは いそがしく （　）。","ありませんでした","あります","ありません","ありました"],["ミラーさんは かいしゃいんです。＝ ミラーさんは （　）で はたらいています。","かいしゃ","がっこう","びょういん","ぎんこう"],["ははの ははは わたしの （　）です。","おばあさん","おかあさん","おとうさん","おじいさん"],["ともだちは わたしに かさを かして くれました。＝ ともだちは わたしに かさを （　）。","かしました","かりました","かいました","うりました"]]}],
+G:[
+ {h:"もんだい1　（　）に なにを いれますか。", q:[
+  ["わたしは まいあさ ろくじ（　）おきます。","に","を","で","へ"],["としょかん（　）ほんを よみます。","で","に","を","へ"],["あした ともだち（　）えいがを みます。","と","を","に","が"],["これは わたし（　）かさです。","の","を","に","で"],["バス（　）がっこうへ いきます。","で","を","に","が"],["わたしは すし（　）すきです。","が","を","に","で"],["わたしは せんせい（　）にほんごを ならいます。","に","を","で","と"],["わたしは まいあさ パン（　）たべます。","を","が","に","へ"],["きのうは どこ（　）いきませんでした。","へも","をも","がも","でも"],["ぎんこうは くじ（　）ごじまでです。","から","まで","に","と"],["この りょうりは おいしいです（　）、たかいです。","が","を","に","も"],["わたしは （　）にほんごが わかりません。","ぜんぜん","よく","たくさん","だいたい"]]},
+ {h:"もんだい2　（　）に なにを いれますか。", q:[
+  ["きのう ともだちに （　）。","あいました","あいます","あいません","あって"],["あしたは がっこうへ （　）。","いきません","いきませんでした","いきました","いって"],["この まちは しずか（　）。","です","な","い","く"],["これは （　）くるまです。","あたらしい","あたらしいな","あたらしく","あたらしいの"],["この ほんは あまり （　）。","おもしろくないです","おもしろいです","おもしろじゃありません","おもしろいじゃありません"],["いっしょに ひるごはんを （　）。","たべませんか","たべました","たべません","たべる"],["おとといは がっこうを （　）。","やすみました","やすみます","やすみません","やすんで"],["Ａ：もう ごはんを たべましたか。Ｂ：いいえ、（　）です。","まだ","もう","とても","あまり"]]},
+ {h:"もんだい3　ぶんしょうを よんで、（　）に なにを いれますか。", p:"わたしは きのう ともだち（51）やまへ いきました。ともだちは くるま（52）きました。やま（53）たくさん さくらが ありました。とても（54）でした。わたしは さくらの しゃしんを（55）。", q:[
+  ["（51）","と","を","が","に"],["（52）","で","を","が","と"],["（53）","に","を","へ","と"],["（54）","きれい","きれいな","きれいい","きれいで"],["（55）","とりました","とります","とりません","とって"]]},
+ {h:"もんだい4　ぶんしょうを よんで、しつもんに こたえて ください。（１）", p:"きのう わたしは ともだちと レストランへ いきました。わたしは カレーを たべました。ともだちは ラーメンを たべました。カレーは おいしいですが、たかいです。ラーメンは やすいです。", q:[
+  ["わたしは きのう なにを たべましたか。","カレー","ラーメン","パン","すし"],["だれと レストランへ いきましたか。","ともだちと","かぞくと","せんせいと","ひとりで"],["ラーメンは どうですか。","やすいです","たかいです","おいしくないです","あついです"]]},
+ {h:"もんだい4　ぶんしょうを よんで、しつもんに こたえて ください。（２）", p:"マヒルさんは まいあさ ろくじに おきます。ななじに あさごはんを たべます。それから でんしゃで かいしゃへ いきます。かいしゃは くじから ごじまでです。", q:[
+  ["マヒルさんは なんじに あさごはんを たべますか。","ななじ","ろくじ","くじ","ごじ"],["マヒルさんは なにで かいしゃへ いきますか。","でんしゃ","バス","じてんしゃ","あるいて"]]}]};
+const MK = {V:{name:"Vocabulary mock",min:20,secs:()=>MOCK.V},G:{name:"Grammar and reading mock",min:40,secs:()=>MOCK.G},F:{name:"Full mock test",min:60,secs:()=>MOCK.V.concat(MOCK.G)}};
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function renderMockTest(kind){
+  stopTimer(); const K=MK[kind]; const qs=[];
+  const html = K.secs().map(s=>{
+    const items = s.q.map(q=>{ const i=qs.length; const opts=shuffle([q[1],q[2],q[3],q[4]].map((t,k)=>({t,ok:k===0}))); qs.push({stem:q[0],opts,ans:q[1]});
+      return `<div class="q mq"><div class="qn">Question ${i+1}</div><div class="mstem" lang="ja">${esc(q[0])}</div><div class="opts" role="radiogroup" aria-label="Question ${i+1}">${opts.map((o,k)=>`<label class="opt"><input type="radio" name="m${i}" value="${k}"><span lang="ja">${k+1}. ${esc(o.t)}</span></label>`).join("")}</div></div>`; }).join("");
+    return `<section class="part"><h2 style="font-size:21px" lang="ja">${esc(s.h)}</h2>${s.p?`<div class="card rule" lang="ja" style="font-size:20px;line-height:1.9;margin-bottom:14px">${esc(s.p)}</div>`:""}<div class="qgrid mgrid">${items}</div></section>`; }).join("");
+  M={kind,qs,start:Date.now(),limit:K.min*60,done:false};
+  app.innerHTML = `<div class="tbar" role="region" aria-label="Test status"><div class="timer" id="timer" role="timer">${fmtTime(M.limit)}</div><div class="prog"><div class="t"><span id="ans">0</span> of ${qs.length} answered · <span class="setname">${K.name}</span></div><div class="b"><i id="pb"></i></div></div><button class="btn btn-primary btn-sm" data-action="mockSubmit">Submit</button></div>${html}<div class="submit-row"><button class="btn btn-primary" data-action="mockSubmit">Submit answers</button></div>`;
+  window.scrollTo(0,0);
+  window.onbeforeunload = e => { e.preventDefault(); e.returnValue=""; return ""; };
+  $$(".mq input").forEach(i=>i.addEventListener("change",()=>{ const n=$$(".mq input:checked").length; $("#ans").textContent=n; $("#pb").style.width=(n/qs.length*100)+"%"; }));
+  tick = setInterval(()=>{ if(!M||M.done) return; const left=M.limit-(Date.now()-M.start)/1000; const el=$("#timer"); if(!el) return; el.textContent=fmtTime(left); el.classList.toggle("warn",left<=300); el.classList.toggle("pulse",left<=60); if(left<=0) finishMock(true); },250);
+}
+function mockTrySubmit(){ const un=M.qs.length-$$(".mq input:checked").length; $("#subText").textContent = un ? `${un} question${un===1?" is":"s are"} still blank. Blank answers score zero.` : "All questions are answered."; $("#dlgSubmit").showModal(); }
+function finishMock(auto){
+  if(!M||M.done) return; M.done=true; stopTimer(); window.onbeforeunload=null;
+  const res=M.qs.map((q,i)=>{ const c=$(`input[name="m${i}"]:checked`); const p=c?q.opts[Number(c.value)]:null; return {stem:q.stem,pick:p?p.t:"",ans:q.ans,ok:!!(p&&p.ok)}; });
+  const rec={id:Date.now(),kind:M.kind,score:res.filter(r=>r.ok).length*2,total:res.length*2,time:Math.min(M.limit,Math.round((Date.now()-M.start)/1000)),date:new Date().toISOString(),name:store.name||"Student",auto:!!auto,res};
+  store.mocks=(store.mocks||[]); store.mocks.unshift(rec); store.mocks=store.mocks.slice(0,30); save(); M=null; $$("dialog[open]").forEach(d=>d.close()); renderMockResult(rec);
+}
+function renderMockResult(rec){
+  const C=2*Math.PI*88, off=C*(1-rec.score/rec.total), p=rec.score/rec.total;
+  const v = p>=.9?"すばらしい！ Outstanding":p>=.7?"よくできました Well done":p>=.5?"もう少し Nearly there":"がんばって Keep practising";
+  const rows = rec.res.map((r,i)=>`<div class="rrow ${r.ok?"ok":"no"}"><span class="n">${i+1}</span><span class="p" style="font-size:17px" lang="ja">${esc(r.stem)}</span><span class="a">${r.ok?`<b lang="ja">${esc(r.pick)}</b>`:`<span class="you" lang="ja">${esc(r.pick||"(blank)")}</span><b lang="ja">${esc(r.ans)}</b>`}</span><span class="mk">${r.ok?"✓":"✗"}</span></div>`).join("");
+  app.innerHTML = crumbs([["Levels","home"],["N5","n5"],["Mock tests","mock"],[MK[rec.kind].name,""]]) + `<div class="res"><div class="scorecard"><div class="who">${esc(rec.name)}</div><div class="when">${MK[rec.kind].name} · ${fmtDate(rec.date)}</div>
+    <div class="ring"><svg width="210" height="210" viewBox="0 0 210 210"><circle cx="105" cy="105" r="88" fill="none" stroke="rgba(255,255,255,.16)" stroke-width="14"/><circle cx="105" cy="105" r="88" fill="none" stroke="#e3b95c" stroke-width="14" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${off}"/></svg><div class="num"><b>${rec.score}</b><span>out of ${rec.total}</span></div></div>
+    <div class="verdict">${v}</div><div class="when">${Math.round(p*100)}% · finished in ${fmtTime(rec.time)}${rec.auto?" (time ran out)":""}</div>
+    ${rec.kind==="F"?`<div class="parts"><div><b>${rec.score}/120</b><span>Language knowledge and reading</span></div><div><b>0/60</b><span>Listening, coming soon</span></div></div><div class="when" style="margin-top:10px">The full test is out of 180 once listening is added.</div>`:""}
+    <div class="rbtns no-print"><button class="btn btn-gold btn-sm" data-action="print">Print or save PDF</button><button class="btn btn-sm" style="background:rgba(255,255,255,.14);color:#fff" data-action="go" data-to="mock">Back to mock tests</button></div></div>
+    <div class="card review"><h2 style="margin-top:20px">Your answers</h2><p class="sub">${rec.res.filter(r=>!r.ok).length?"Check the red ones and fix them before the next try.":"Every answer was correct."}</p>${rows}</div></div><div style="height:40px"></div>`;
+  window.scrollTo(0,0);
+}
 function renderMock(){
   page(crumbs([["Levels","home"],["N5","n5"],["Mock tests",""]]), "N5 mock tests", "Pick the part you want to be tested on.",
-    lv("Vocabulary mock","Word meaning and use","語彙","",false)+lv("Kanji mock","20 timed sets, 50 questions each","漢字","kanjimock",true)+lv("Grammar mock","Sentence patterns","文法","",false)+lv("Full mock test","All parts together, 180 marks","総合","",false));
+    lv("Vocabulary mock","30 questions, 60 marks, 20 minutes","語彙","vmock",true)+lv("Kanji mock","20 timed sets, 50 questions each","漢字","kanjimock",true)+lv("Grammar mock","30 questions with reading, 60 marks, 40 minutes","文法","gmock",true)+lv("Full mock test","Vocabulary, grammar and reading: 120 marks, 60 minutes. Listening (60 marks) coming soon","総合","fmock",true));
 }
 
 
@@ -565,7 +627,7 @@ function route(to){
   const g = /^lesson(\d+)$/.exec(to); if(g) return renderLesson(Number(g[1]));
   const m = /^vocab(\d+)$/.exec(to);
   if(m) return renderVocabLesson(Number(m[1]));
-  return ({n5:renderN5,mock:renderMock,kanjimock:renderKanjiMock,grammar:renderGrammar,lesson1:()=>renderLesson(1),vocab:renderVocab,kanji:renderKanjiLearn}[to]||renderHome)();
+  return ({n5:renderN5,mock:renderMock,kanjimock:renderKanjiMock,grammar:renderGrammar,lesson1:()=>renderLesson(1),vocab:renderVocab,kanji:renderKanjiLearn,vmock:()=>renderMockTest("V"),gmock:()=>renderMockTest("G"),fmock:()=>renderMockTest("F")}[to]||renderHome)();
 }
 function renderVocab(){
   page(crumbs([["Levels","home"],["N5","n5"],["Learn vocabulary",""]]),"N5 vocabulary","Words from lessons 1 to 25, in the order of your book.",
@@ -831,7 +893,7 @@ function downloadPng(id){
 document.addEventListener("click", e => {
   const el = e.target.closest("[data-action]"); if(!el) return;
   const a = el.dataset.action;
-  if(a==="home"||a==="go"){ if(T && !T.done){ if(!confirm("Leave the test? Your answers will be lost.")) return; T=null; } stopTimer(); window.onbeforeunload=null; route(a==="go"?el.dataset.to:""); }
+  if(a==="home"||a==="go"){ if((T && !T.done)||(M && !M.done)){ if(!confirm("Leave the test? Your answers will be lost.")) return; T=null; M=null; } stopTimer(); window.onbeforeunload=null; route(a==="go"?el.dataset.to:""); }
   else if(a==="theme") toggleTheme();
   else if(a==="editName"){ $("#inName2").value = store.name||""; $("#dlgName").showModal(); }
   else if(a==="closeName") $("#dlgName").close();
@@ -845,7 +907,8 @@ document.addEventListener("click", e => {
   else if(a==="vtoggle"){ const l=$("#vlist"); l.classList.toggle("hide"); el.textContent = l.classList.contains("hide") ? "Show English" : "Hide English"; }
   else if(a==="vrow") el.classList.toggle("shown");
   else if(a==="closeSubmit") $("#dlgSubmit").close();
-  else if(a==="confirmSubmit") finish(false);
+  else if(a==="confirmSubmit"){ if(M && !M.done) finishMock(false); else finish(false); }
+  else if(a==="mockSubmit") mockTrySubmit();
   else if(a==="openResult"){ const r=store.history[Number(el.dataset.i)]; if(r) renderResult(r); }
   else if(a==="filter"){ const r=store.history.find(h=>h.id===Number(el.dataset.id)); if(r){ renderResult(r, el.dataset.f); window.scrollTo(0, $(".review").offsetTop-90); } }
   else if(a==="png") downloadPng(el.dataset.id);
